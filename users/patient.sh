@@ -193,14 +193,13 @@ case $option in
 		scheduleExams
 		;;
 	5) 
-		echo "Voltando ao meno principal..."
 		cd ..
-		chmod +x main.sh
-		./main.sh
+		cd session
+		chmod +x auth.sh
+		./auth.sh
 		;;	
 	*) 
 		echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
 		echo ""
 		;;	
-esac
-		
+esac	

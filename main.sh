@@ -1,3 +1,4 @@
+1;78u;2234;23423;324;2
 #!/bin/bash
 
 database_dir="/home/fabiana/Documents/SO I/projecto_clinica/database"

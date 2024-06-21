@@ -116,8 +116,9 @@ case $option in
 	5) 
 		echo "5. "
 		cd ..
-		chmod +x main.sh
-		./main.sh
+		cd session
+		chmod +x auth.sh
+		./auth.sh
 		;;	
 	*) 
 		echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
@@ -126,31 +127,4 @@ case $option in
 esac
 
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
