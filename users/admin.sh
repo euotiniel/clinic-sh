@@ -193,6 +193,41 @@ function deleteEmployee {
 done   
 }
 
+
+
+function delFiliates {
+
+	echo "Qual Filial deseja apagar?!"
+	read nome
+	
+	usuarios=$(getent group $nome | cut -d: -f4)
+	for usuario in $usuarios; do
+        deluser $usuario $nome
+        done
+	groupdel $grupo
+	
+}
+
+function createFiliates {
+	
+    next_uid=1200
+
+    while true; do
+    echo "Insira o nome de usuário da Filial (ou 'q' para sair):"
+    read user
+
+    if [[ "$user" == "q" ]]; then
+        break
+    fi
+
+    sudo addgroup --uid $next_uid "$user"
+    ((next_uid++))
+
+    echo "Filial '$user' adicionado com UID ."
+    done
+	
+}
+
 function filiates {
 
 
@@ -222,65 +257,7 @@ i	f [ "$caso" == "1" ]; then
     	./auth.sh
 fi
 COMMENT
-
-    
  
-}
-
-function delFiliates {
-
-	echo "Qual Filial deseja apagar?!"
-	read nome
-	
-	usuarios=$(getent group $nome | cut -d: -f4)
-	for usuario in $usuarios; do
-        deluser $usuario $nome
-        done
-	groupdel $grupo
-	
-}
-
-function createFiliate{
-
-    next_uid=1200
-  
-    while true; do
-    echo "Insira o nome de usuário do Funcionário (ou 'q' para sair):"
-    read user
-
-    if [[ "$user" == "q" ]]; then
-        break
-    fi
-
-    sudo adduser --uid $next_uid "$user"
-    ((next_uid++))
-
-    echo "Usuário '$user' adicionado com UID $next_uid."
-    done
-
-}
-
-function listFiliate{
-
-    awk -F':' '$3 >= 1100 && $1 != "nobody" {print $5}' /etc/group | cut -d',' -f1
-	
-    echo ""
-    echo "1. Voltar"
-    echo "2. Sair"
-    
-    read -p "Escolha uma opção: " caso
-
-    if [ "$caso" == "1" ]; then
-       	./admin.sh
-    fi
-    			
-    if [ "$caso" == "2" ]; then
-    	 cd ..
-    	 cd session
-    	 ./auth.sh
-    fi
-
-
 }
 
 
