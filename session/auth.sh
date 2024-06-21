@@ -16,7 +16,7 @@ if [ "$(getent passwd "$opcao" | cut -d: -f3)" -eq 1000 ]; then
     ./admin.sh
 else
     
-    if getent passwd "$opcao" > /dev/null; then
+    if  getent passwd "$opcao" > /dev/null; then
         su "$opcao"
         cd ..
         cd users
@@ -27,17 +27,30 @@ else
         echo "Usuário $opcao não existe!"
     fi
 fi
+  
+   echo ""
+   echo "1. Tentar Novamente"
+   echo "2. Sair"  
+  
+   read -p "Escolha uma opção: " caso
+   
 
-echo "1. Tentar Novamente"
-echo "2. Sair"
-
-    
-    read -p "Escolha uma opção: " caso
-
-    if [ "$caso" == "1" ]; then
+   if [ "$caso" == "1" ]; then
        	./auth.sh
     fi
-    if [ "$caso" == "2" ]; then
+   if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd session
+    	 ./auth.sh
+    fi
+    
+    
+    
+    
+    
+    
+    
+    
     	 exit
     fi
     
