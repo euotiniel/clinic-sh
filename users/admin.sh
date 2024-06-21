@@ -27,7 +27,7 @@ function addDoctor {
 
 function listDoctor {
 
-    awk -F':' '$3 >= 1002 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
+    awk -F':' '$3 >= 1002 && $3 <= 1099 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
 	
     echo ""
     echo "1. Voltar"
@@ -93,18 +93,30 @@ function cleanSystem {
     fi
     			
     if [ "$caso" == "2" ]; then
-    	 exit
+    	 cd ..
+    	 cd session
+    	 ./auth.sh
     fi
 
 }
 
 function addEmployee {
 
-    echo "Insira o nome de usuario do Funcionario"
-    read user 
+    next_uid=1100
 
-    sudo adduser -u 1100 "$user"
-    echo "Funcionario adicionado com Sucesso!"
+    while true; do
+    echo "Insira o nome de usuário do Funcionário (ou 'q' para sair):"
+    read user
+
+    if [[ "$user" == "q" ]]; then
+        break
+    fi
+
+    sudo adduser --uid $next_uid "$user"
+    ((next_uid++))
+
+    echo "Usuário '$user' adicionado com UID $next_uid."
+    done
     
     read  caso
     echo "1. Voltar"
@@ -119,6 +131,158 @@ function addEmployee {
     fi
 
 }
+
+function listEmployee {
+
+    awk -F':' '$3 >= 1100 && $3 <= 1199 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
+
+  
+    echo ""
+    echo "1. Voltar"
+    echo "2. Sair"
+    
+    read -p "Escolha uma opção: " caso
+
+    if [ "$caso" == "1" ]; then
+       	./admin.sh
+    fi
+    			
+    if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd session
+    	 ./auth.sh
+    fi
+}
+
+function deleteEmployee {
+
+    remove_user() {
+    echo "Insira o nome de usuário para remover:"
+    read user
+
+    sudo deluser "$user"
+    echo "Usuário '$user' removido."
+}
+
+
+    while true; do
+    echo "Selecione uma opção:"
+    echo "1. Remover usuário"
+    echo "2. Voltar"
+    echo "3. Sair"
+   
+
+    read -p "Escolha uma opção: " opcao
+
+    case $opcao in
+        1)
+            remove_user
+            ;;
+        2)
+            ./admin.sh
+            ;;
+        3)
+            cd ..
+    	    cd session
+    	   ./auth.sh
+            ;;
+        *)
+            echo "Opção inválida. Por favor, escolha novamente."
+            ;;
+    esac
+done   
+}
+
+function filiates {
+
+
+	echo "1. Ver Filiais"
+	echo "2. Eliminar Filiais"
+	echo "3. Entrar Filiais"
+	
+
+	: <<'COMMENT'
+	echo "Escolha o nome da Filial"
+	read nome
+	sudo addgroup $nome --force-badname
+
+	echo ""
+	echo "1. Voltar"
+e	cho "2. Sair"
+
+r	ead -p "Escolha uma opção: " caso
+
+i	f [ "$caso" == "1" ]; then
+    .	/admin.sh
+	fi
+
+	if [ "$caso" == "2" ]; then
+    	cd ..
+    	cd session
+    	./auth.sh
+fi
+COMMENT
+
+    
+ 
+}
+
+function delFiliates {
+
+	echo "Qual Filial deseja apagar?!"
+	read nome
+	
+	usuarios=$(getent group $nome | cut -d: -f4)
+	for usuario in $usuarios; do
+        deluser $usuario $nome
+        done
+	groupdel $grupo
+	
+}
+
+function createFiliate{
+
+    next_uid=1200
+  
+    while true; do
+    echo "Insira o nome de usuário do Funcionário (ou 'q' para sair):"
+    read user
+
+    if [[ "$user" == "q" ]]; then
+        break
+    fi
+
+    sudo adduser --uid $next_uid "$user"
+    ((next_uid++))
+
+    echo "Usuário '$user' adicionado com UID $next_uid."
+    done
+
+}
+
+function listFiliate{
+
+    awk -F':' '$3 >= 1100 && $1 != "nobody" {print $5}' /etc/group | cut -d',' -f1
+	
+    echo ""
+    echo "1. Voltar"
+    echo "2. Sair"
+    
+    read -p "Escolha uma opção: " caso
+
+    if [ "$caso" == "1" ]; then
+       	./admin.sh
+    fi
+    			
+    if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd session
+    	 ./auth.sh
+    fi
+
+
+}
+
 
 clear
 echo "MENU ADMIN"
@@ -158,17 +322,15 @@ case $option in
 		;;
 		
 	5) 	
-		cleanSystem
+		deleteEmployee
 		;;	
 	6) 
 		
-		;;
-		4) 
-		scheduleExams
+		listEmployee
 		;;
 		
 	7) 	
-		cleanSystem
+		filiates
 		;;	
 	8) 	
 		cleanSystem
