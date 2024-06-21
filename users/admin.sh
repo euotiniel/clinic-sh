@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-
+# Funcoes
 
 function addDoctor {
 
@@ -121,9 +120,8 @@ function addEmployee {
 }
 
 clear
-echo "MENU ADMIN"
-echo "--------------"
-echo ""
+echo "MENU ADMINISTRADOR"
+echo "------------------"
 echo " 
 1. Adicionar Medicos
 2. Eliminar Medicos
@@ -136,7 +134,6 @@ echo "
 9. Logs
 10. Sair
 "
-echo ""
 
 read option
 
@@ -187,3 +184,5 @@ case $option in
 		echo ""
 		;;
 esac
+
+
