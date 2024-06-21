@@ -25,7 +25,8 @@ else
         echo "Usuário $opcao não existe!"
     fi
 fi
-
+  
+   echo ""
 echo -e "1. Tentar Novamente"
 echo -e "2. Sair"
     
@@ -34,7 +35,19 @@ echo -e "2. Sair"
     if [ "$caso" == "1" ]; then
        	./auth.sh
     fi
-    if [ "$caso" == "2" ]; then
+   if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd session
+    	 ./auth.sh
+    fi
+    
+    
+    
+    
+    
+    
+    
+    
     	 exit
     fi
     
