@@ -22,53 +22,90 @@ fi
 
 function makeMarking {
     clear
-    echo -e "FAZER MARCACOES"
+    echo -e "FAZER MARCAÇÕES"
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
-    echo -e "Nome: "
-    read name
-    echo -e "Data de nascimento (ddmmaaaa): "
-    read birth
-    echo -e "Telefone: "
-    read phone
-    echo -e "Dia da consulta (ddmmaaaa): "
-    read consultationDay
-    echo -e "Area da consulta: "
-    echo "
-1 - Fisioterapia:
-2 - Dermatologia 
-3 - Genecologia
-    "
-    read area
-    
-    # Salvar os dados em um arquivo de texto e verificar o sucesso
-    
+
+    while true; do
+        read -p "Nome: " name
+        if [[ -z "$name" ]]; then
+            echo "Nome não pode estar vazio. Por favor, digite novamente."
+        else
+            break
+        fi
+    done
+
+    while true; do
+        read -p "Data de nascimento (ddmmaaaa): " birth
+        if [[ ! "$birth" =~ ^[0-9]{8}$ ]]; then
+            echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
+        else
+            birth_formatted=$(echo "$birth" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
+            echo "$birth_formatted"
+            birth=$birth_formatted
+            break
+        fi
+    done
+
+    while true; do
+        read -p "Telefone: " phone
+        if [[ ! "$phone" =~ ^[0-9]{8,11}$ ]]; then
+            echo "Telefone inválido. Deve conter entre 8 e 11 dígitos numéricos."
+        else
+            break
+        fi
+    done
+
+    while true; do
+        read -p "Dia da consulta (ddmmaaaa): " consultationDay
+        if [[ ! "$consultationDay" =~ ^[0-9]{8}$ ]]; then
+            echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
+        else
+            break
+        fi
+    done
+
+    while true; do
+        echo -e "Área da consulta (Digite o número da opção): "
+        echo "1 - Fisioterapia"
+        echo "2 - Dermatologia"
+        echo "3 - Ginecologia"
+        read area
+        if [[ "$area" != "1" && "$area" != "2" && "$area" != "3" ]]; then
+            echo "Opção inválida. Escolha uma das opções disponíveis."
+        else
+            case $area in
+                1) area="Fisioterapia" ;;
+                2) area="Dermatologia" ;;
+                3) area="Ginecologia" ;;
+            esac
+            break
+        fi
+    done
+
     file="$PROJECT_URL/database/patients_consulta_marc.txt"
-    
     id=$(wc -l < "$file")
-    
     id=$((id + 1))
-    
+
     if echo "$id;$name;$birth;$phone;$consultationDay;$area" >> "$file"; then
-      
         echo ""
         echo "Marcação feita com sucesso!"
     else
         echo ""
         echo "Erro ao salvar a marcação. Verifique as permissões ou tente novamente."
     fi
-    
+
     echo ""
     echo -e "1. Voltar"
     echo ""
-    
+
     while true; do
-    	read -p "Digite 1 para voltar: " caso
+        read -p "Digite 1 para voltar: " caso
 
         if [ "$caso" == "1" ]; then
-    	    ./patient.sh
-    	    break  
+            ./patient.sh
+            break
         fi
     done
 }
