@@ -3,8 +3,7 @@
 echo "Clinica Kipipa"
 echo ""
 echo -e "Iniciar Sessao"
-echo "Insira o nome do usuario"
-read opcao
+read -p "Insira o nome do usuario: " opcao
 
 if [ "$(getent passwd "$opcao" | cut -d: -f3)" -eq 1000 ]; then
     su "$opcao"
