@@ -134,7 +134,6 @@ function consultMarking {
     echo -e "CONSULTAR MARCACOES"
     echo ""
 
-    # Verifica se o arquivo existe
     file="$PROJECT_URL/database/patients_consulta_marc.txt"
     
     if [ ! -f "$file" ]; then
@@ -193,8 +192,6 @@ function scheduleExams {
     echo -e "Id da consulta: "
     read search_id
     
-    # Salvar os dados em um arquivo de texto e verificar o sucesso
-    
     file="$PROJECT_URL/database/patients_consulta_marc.txt"
     
     found=false
@@ -211,15 +208,13 @@ function scheduleExams {
             echo "-------------------"
             found=true
             
-           subFunctionScheduleExam "$name" "$birth" "$phone" "$consultationDay" "$area"
-         # Criar um arquivo temporário sem o registro correspondente ao search_id
+           subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area"
+         # Criar um arquivo temporário
         temp_file=$(mktemp)
 
         grep -v "^$search_id;" "$file" > "$temp_file"
         
-        # Verificar se o arquivo temporário foi criado com sucesso
         if [ -f "$temp_file" ]; then
-            # Substituir o arquivo original com o arquivo temporário
             if mv "$temp_file" "$file"; then
                 echo "Registro com ID $search_id removido com sucesso."
             else
@@ -348,6 +343,7 @@ function checkExams {
 function subFunctionScheduleExam {   
     # Atribuir parâmetros a variáveis locais
     name="$name"
+    gender="$gender"
     birth="$birth"
     phone="$phone"
     consultationDay="$consultationDay"
@@ -362,7 +358,7 @@ function subFunctionScheduleExam {
     if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >> "$file"; then
       
         echo ""
-        echo "Exame feito com sucesso!"
+        echo "Exame marcado com sucesso!"
     else
         echo ""
         echo "Ups! Erro ao salvar. Verifique as permissões ou tente novamente."
@@ -374,7 +370,7 @@ function subFunctionScheduleExam {
     	read -p "Digite 1 para voltar: " caso
 
         if [ "$caso" == "1" ]; then
-    	    exit
+    	    ./patient.sh
     	    break  
         fi
     done
