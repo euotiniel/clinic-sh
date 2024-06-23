@@ -35,6 +35,21 @@ function makeMarking {
             break
         fi
     done
+    
+    while true; do
+    read -p "Gênero (M ou F): " gender
+
+    if [[ "$gender" == "M" || "$gender" == "m" ]]; then
+        gender="M"
+        break
+    elif [[ "$gender" == "F" || "$gender" == "f" ]]; then
+        gender="F"
+        break
+    else
+        echo "Opção inválida. Escolha M para masculino ou F para feminino."
+    fi
+done
+
 
     while true; do
         read -p "Data de nascimento (ddmmaaaa): " birth
@@ -50,8 +65,8 @@ function makeMarking {
 
     while true; do
         read -p "Telefone: " phone
-        if [[ ! "$phone" =~ ^[0-9]{8,11}$ ]]; then
-            echo "Telefone inválido. Deve conter entre 8 e 11 dígitos numéricos."
+        if [[ ! "$phone" =~ ^[0-9]{9,13}$ ]]; then
+            echo "Telefone inválido. Deve conter entre 9 e 13 (+244) dígitos numéricos."
         else
             break
         fi
@@ -62,6 +77,9 @@ function makeMarking {
         if [[ ! "$consultationDay" =~ ^[0-9]{8}$ ]]; then
             echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
         else
+            formatted=$(echo "$consultationDay" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
+            echo "$formatted"
+            consultationDay=$formatted
             break
         fi
     done
@@ -88,7 +106,7 @@ function makeMarking {
     id=$(wc -l < "$file")
     id=$((id + 1))
 
-    if echo "$id;$name;$birth;$phone;$consultationDay;$area" >> "$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >> "$file"; then
         echo ""
         echo "Marcação feita com sucesso!"
     else
@@ -138,9 +156,10 @@ function consultMarking {
     # Exibir as marcações existentes
     echo -e "Lista de Marcacoes:"
     echo ""
-    while IFS=';' read -r id name birth phone consultationDay area; do
+    while IFS=';' read -r id name gender birth phone consultationDay area; do
         echo "Id: $id"
         echo "Nome: $name"
+        echo "Gênero: $gender"
         echo "Data de Nascimento: $birth"
         echo "Telefone: $phone"
         echo "Dia da Consulta: $consultationDay"
@@ -180,10 +199,11 @@ function scheduleExams {
     
     found=false
     
-    while IFS=';' read -r id name birth phone consultationDay area; do
+    while IFS=';' read -r id name gender birth phone consultationDay area; do
         if [ "$id" == "$search_id" ]; then
             echo "Id: $id"
             echo "Nome: $name"
+            echo "Gênero: $gender"
             echo "Data de Nascimento: $birth"
             echo "Telefone: $phone"
             echo "Dia da Consulta: $consultationDay"
@@ -223,6 +243,8 @@ function scheduleExams {
     	echo ""
     	echo -e "Nome: "
     	read name
+    	echo -e "Genero: "
+    	read gender
     	echo -e "Data de nascimento (ddmmaaaa): "
     	read birth
     	echo -e "Telefone: "
@@ -237,7 +259,7 @@ function scheduleExams {
 "
     read area
     
-            subFunctionScheduleExam "$name" "$birth" "$phone" "$consultationDay" "$area"
+            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area"
     fi
     
     # Salvar os dados em um arquivo de texto e verificar o sucesso
@@ -248,7 +270,7 @@ function scheduleExams {
     
     id=$((id + 1))
     
-    if echo "$id;$name;$birth;$phone;$consultationDay;$area" >> "$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >> "$file"; then
         echo ""
         echo "Marcação de exame feita com sucesso!"
     else
@@ -298,9 +320,10 @@ function checkExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-    while IFS=';' read -r id name birth phone consultationDay area; do
+    while IFS=';' read -r id name gender birth phone consultationDay area; do
         echo "Id: $id"
         echo "Nome: $name"
+        echo "Genero: $gender"
         echo "Data de Nascimento: $birth"
         echo "Telefone: $phone"
         echo "Dia da Consulta: $consultationDay"
@@ -336,7 +359,7 @@ function subFunctionScheduleExam {
     
     id=$((id + 1))
     
-    if echo "$id;$name;$birth;$phone;$consultationDay;$area" >> "$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >> "$file"; then
       
         echo ""
         echo "Exame feito com sucesso!"
