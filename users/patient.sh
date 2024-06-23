@@ -1,8 +1,10 @@
 #!/bin/bash
 
+source ../config.sh 
+
 # Sets
 
-database_dir="/home/fabiana/Music/clinica-so/database"
+database_dir="$PROJECT_URL/database"
 
 patients_consulta_db="$database_dir/patients_consulta_marc.txt"
 
@@ -11,7 +13,6 @@ patients_exame_db="$database_dir/patients_exame_marc.txt"
 if [ ! -f "$patients_consulta_db" ]; then
 	touch "$patients_consulta_db"
 fi
-
 
 if [ ! -f "$patients_exame_db" ]; then
 	touch "$patients_exame_db"
@@ -43,7 +44,7 @@ function makeMarking {
     
     # Salvar os dados em um arquivo de texto e verificar o sucesso
     
-    file="/home/fabiana/Music/clinica-so/database/patients_consulta_marc.txt"
+    file="$PROJECT_URL/database/patients_consulta_marc.txt"
     
     id=$(wc -l < "$file")
     
@@ -79,7 +80,7 @@ function consultMarking {
     echo ""
 
     # Verifica se o arquivo existe
-    file="/home/fabiana/Music/clinica-so/database/patients_consulta_marc.txt"
+    file="$PROJECT_URL/database/patients_consulta_marc.txt"
     
     if [ ! -f "$file" ]; then
         echo -e "Lista de marcacoes vazia."
@@ -138,7 +139,7 @@ function scheduleExams {
     
     # Salvar os dados em um arquivo de texto e verificar o sucesso
     
-    file="/home/fabiana/Music/clinica-so/database/patients_consulta_marc.txt"
+    file="$PROJECT_URL/database/patients_consulta_marc.txt"
     
     found=false
     
@@ -179,7 +180,7 @@ function scheduleExams {
         echo "Nenhum registro encontrado com o ID $search_id."
         echo ""
         
-        file="/home/fabiana/Music/clinica-so/database/patients_exame_marc.txt"
+        file="$PROJECT_URL/database/patients_exame_marc.txt"
             
         echo -e "Digite os dados do paciente:"
     	echo ""
@@ -204,7 +205,7 @@ function scheduleExams {
     
     # Salvar os dados em um arquivo de texto e verificar o sucesso
     
-    file="/home/fabiana/Music/clinica-so/database/patients_exame_marc.txt"
+    file="$PROJECT_URL/database/patients_exame_marc.txt"
     
     id=$(wc -l < "$file")
     
@@ -239,7 +240,7 @@ function checkExams {
     echo ""
 
     # Verifica se o arquivo existe
-    file="/home/fabiana/Music/clinica-so/database/patients_exame_marc.txt"
+    file="$PROJECT_URL/database/patients_exame_marc.txt"
     
     if [ ! -s "$file" ]; then
         echo -e "Nenhuma marcao de exame."
@@ -292,7 +293,7 @@ function subFunctionScheduleExam {
     consultationDay="$consultationDay"
     area="$area"
     
-    file="/home/fabiana/Music/clinica-so/database/patients_exame_marc.txt"
+    file="$PROJECT_URL/database/patients_exame_marc.txt"
     
     id=$(wc -l < "$file")
     
