@@ -1,0 +1,16 @@
+ywetgyuew
+ 
+ewrerwe
+rerwe
+rwer
+er
+wer
+wer
+ewr
+ewre
+
+
+sed -i '1d' dados.txt
+
+sed -i '2s/.*/ /' dados.txt
+
