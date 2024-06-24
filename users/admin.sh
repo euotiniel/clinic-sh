@@ -3,7 +3,7 @@
 # Funcoes
 
 function addDoctor {
-
+	clear
     echo "Insira o nome de usuario do Medico"
     read user 
 
@@ -25,6 +25,7 @@ function addDoctor {
 }
 
 function listDoctor {
+	clear
 
     awk -F':' '$3 >= 1001 && $3 <= 1099 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
 	
@@ -45,6 +46,7 @@ function listDoctor {
 
 
 function deleteDoctor {
+	clear
 	
     echo "Qual Medico pretende deletar?"
     read opcao
@@ -76,6 +78,7 @@ function deleteDoctor {
 }
 
 function cleanSystem {
+	clear
 
     sudo apt-get autoremove
     sudo apt-get autoclean
@@ -100,6 +103,7 @@ function cleanSystem {
 }
 
 function addEmployee {
+	clear
 
     next_uid=1100
 
@@ -132,7 +136,7 @@ function addEmployee {
 }
 
 function listEmployee {
-
+	clear
     awk -F':' '$3 >= 1100 && $3 <= 1199 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
 
   
@@ -154,6 +158,8 @@ function listEmployee {
 }
 
 function deleteEmployee {
+
+clear
 
     remove_user() {
     echo "Insira o nome de usuário para remover:"

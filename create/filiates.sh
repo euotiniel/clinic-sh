@@ -3,6 +3,7 @@
 
 
 function delFiliates {
+	clear
 
 	echo "Qual grupo deseja apagar?"
 	read nome
@@ -48,9 +49,8 @@ echo ""
 }
 
 function createFiliates {
-	
+	clear
     next_uid=1200
-#!/bin/bash
 
 next_uid=1200
 
@@ -96,6 +96,7 @@ done
 }
 
 function listFiliates {
+clear
  awk -F':' '$3 >= 1200 && $1 != "nogroup" {print $1}' /etc/group
  
     echo ""

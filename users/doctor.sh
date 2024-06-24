@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function consultar_exames {
+	clear
 			echo "Sucesso."
     			echo "1. Voltar"
    			echo "2. Sair"
@@ -34,6 +35,7 @@ function consultar_exames {
 		}
 		
 		function ver_pacientes {
+			clear
 		
 			echo "Sucesso. "
 			echo "1. Voltar"
@@ -51,6 +53,7 @@ function consultar_exames {
 		}
 		
 		function historico_pacientes {
+			clearx
 		
 			echo "Sucesso. "
 			echo "1. Voltar"
