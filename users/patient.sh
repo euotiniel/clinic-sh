@@ -20,7 +20,6 @@ else
     mkdir "$database_dir/historic"
 fi
 
-
 if [ ! -f "$patients_consulta_db" ]; then
     touch "$patients_consulta_db"
 fi
@@ -173,7 +172,7 @@ function consultMarking {
     echo -e "Lista de Marcacoes:"
     echo ""
     while IFS=';' read -r id name gender birth phone consultationDay area; do
-        if [[ -n "${id// }" ]]; then
+        if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
             echo "Gênero: $gender"
@@ -227,33 +226,30 @@ function scheduleExams {
 
             subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area"
 
-            # Historico
-
+            # Histórico
             if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >>"$patients_consulta_historic"; then
                 echo ""
             else
                 echo ""
             fi
 
+            # Remover linha do arquivo
             sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
 
+            break  # Sair do loop após encontrar o registro
         fi
-
-        break
-
     done <"$file"
 
     if ! $found; then
         echo "Nenhum registro encontrado com o ID $search_id."
         echo ""
 
-        file="$PROJECT_URL/database/patients_exame_marc.txt"
-
+        # Coletar dados para agendar exame
         echo -e "Digite os dados do paciente:"
         echo ""
         echo -e "Nome: "
         read name
-        echo -e "Genero: "
+        echo -e "Gênero: "
         read gender
         echo -e "Data de nascimento (ddmmaaaa): "
         read birth
@@ -261,30 +257,28 @@ function scheduleExams {
         read phone
         echo -e "Dia do exame (ddmmaaaa): "
         read consultationDay
-        echo -e "Area da consulta: "
+        echo -e "Área da consulta:"
         echo "
 1 - Fisioterapia:
 2 - Dermatologia 
-3 - Genecologia
+3 - Ginecologia
 "
         read area
 
         subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area"
-    fi
 
-    # Salvar os dados em um arquivo de texto e verificar o sucesso
+        # Salvar os dados do exame no arquivo
+        file="$PROJECT_URL/database/patients_exame_marc.txt"
 
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
+        id=$(wc -l <"$file")
+        id=$((id + 1))
 
-    id=$(wc -l <"$file")
-
-    id=$((id + 1))
-
-    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >>"$file"; then
-        echo ""
-    else
-        echo ""
-        echo "Erro ao salvar a marcação de exame. Verifique as permissões ou tente novamente."
+        if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area" >>"$file"; then
+            echo ""
+        else
+            echo ""
+            echo "Erro ao salvar a marcação de exame. Verifique as permissões ou tente novamente."
+        fi
     fi
 
     echo ""
@@ -300,6 +294,7 @@ function scheduleExams {
         fi
     done
 }
+
 
 function checkExams {
     clear
@@ -330,7 +325,7 @@ function checkExams {
     echo -e "Marcacoes para exames:"
     echo ""
     while IFS=';' read -r id name gender birth phone consultationDay area; do
-        if [[ -n "${id// }" ]]; then
+        if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
             echo "Genero: $gender"
@@ -364,9 +359,9 @@ function subFunctionScheduleExam {
     local consultationDay="$5"
     local area="$6"
 
-    # file="$PROJECT_URL/database/patients_exame_marc.txt"
+    file="$PROJECT_URL/database/patients_exame_marc.txt"
 
-    id=$(wc -l <"$patients_exame_db")
+    id=$(wc -l <"$file")
 
     id=$((id + 1))
 
@@ -427,5 +422,7 @@ case $option in
 *)
     echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
     echo ""
+    chmod a+x patient.sh
+    ./patient.sh
     ;;
 esac
