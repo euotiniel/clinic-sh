@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function consultar_exames {
+	clear
 			echo "Sucesso."
     			echo "1. Voltar"
    			echo "2. Sair"
@@ -34,6 +35,7 @@ function consultar_exames {
 		}
 		
 		function ver_pacientes {
+			clear
 		
 			echo "Sucesso. "
 			echo "1. Voltar"
@@ -51,6 +53,7 @@ function consultar_exames {
 		}
 		
 		function historico_pacientes {
+			clearx
 		
 			echo "Sucesso. "
 			echo "1. Voltar"
@@ -74,6 +77,9 @@ name=$(whoami)
 clear
 echo "MENU DOCTOR"
 echo "------------"
+usuario=$(whoami)
+nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
+echo "Bem vindo/a $nome"
 echo " 
 1. Consultar exames
 2. Verificar resultados
@@ -116,9 +122,9 @@ case $option in
 	5) 
 		echo "5. "
 		cd ..
-		cd session
-		chmod +x auth.sh
-		./auth.sh
+		cd auth
+		chmod +x login.sh
+		./login.sh
 		;;	
 	*) 
 		echo "Opcao nao disponivel, escolha um dos numeros apresentados!"

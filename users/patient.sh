@@ -382,6 +382,9 @@ name=$(whoami)
 clear
 echo "MENU PACIENTE"
 echo "--------------"
+usuario=$(whoami)
+nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
+echo "Bem vindo/a $nome"
 echo " 
 1. Fazer marcacao
 2. Consultar marcacoes
