@@ -74,6 +74,9 @@ name=$(whoami)
 clear
 echo "MENU DOCTOR"
 echo "------------"
+usuario=$(whoami)
+nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
+echo "Bem vindo/a $nome"
 echo " 
 1. Consultar exames
 2. Verificar resultados

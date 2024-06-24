@@ -1,70 +1,171 @@
 #!/bin/bash
 
-echo "Filiais Kipipa"
-echo ""
 
 
 function delFiliates {
 
-	echo "Qual Filial deseja apagar?!"
+	echo "Qual grupo deseja apagar?"
 	read nome
+
 	
-	usuarios=$(getent group $nome | cut -d: -f4)
-	for usuario in $usuarios; do
-        deluser $usuario $nome
-        done
-	groupdel $grupo
+	if grep -q "^$nome:" /etc/group; then
+   
+        usuarios=$(getent group $nome | cut -d: -f4)
+
+   
+       for usuario in $usuarios; do
+       sudo deluser $usuario $nome
+    done
+
+    
+    sudo groupdel $nome
+    echo "Grupo $nome foi removido com sucesso."
+else
+    echo "O grupo $nome não existe."
+fi
+
+echo ""
+    echo ""
+    echo "1. Voltar"
+    echo "2. Sair"
+    echo "3. Continuar"
+    
+    read -p "Escolha uma opção: " caso
+
+    if [ "$caso" == "1" ]; then
+        ./filiates.sh
+    fi
+    			
+    if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd users
+    	 ./admin.sh
+    fi
+    if [ "$caso" == "3" ]; then
+    	 delFiliates
+    fi
 	
 }
 
 function createFiliates {
 	
     next_uid=1200
+#!/bin/bash
 
-    while true; do
-    echo "Insira o nome de usuário da Filial (ou 'q' para sair):"
+next_uid=1200
+
+while true; do
+    echo "Insira o nome da Filial (ou 'q' para sair):"
     read user
 
     if [[ "$user" == "q" ]]; then
         break
     fi
 
-    sudo addgroup --uid $next_uid "$user"
+    echo "Criando grupo com nome '$user' e UID $next_uid..."
+
+    sudo addgroup --gid $next_uid "$user"
+
+    if [ $? -eq 0 ]; then
+        echo "Filial '$user' adicionada com UID $next_uid."
+    else
+        echo "Erro ao adicionar filial '$user'."
+    fi
+
     ((next_uid++))
+done
 
-    echo "Filial '$user' adicionado com UID ."
-    done
+    
+    
+    echo ""
+    echo "1. Voltar"
+    echo "2. Sair"
+    
+    read -p "Escolha uma opção: " caso
+
+    if [ "$caso" == "1" ]; then
+        ./filiates.sh
+    fi
+    			
+    if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd users
+    	 ./admin.sh
+    fi
 	
 }
 
-function filiates {
-
-
-	echo "1. Ver Filiais"
-	echo "2. Eliminar Filiais"
-	echo "3. Entrar Filiais"
-	
-
-	: <<'COMMENT'
-	echo "Escolha o nome da Filial"
-	read nome
-	sudo addgroup $nome --force-badname
-
-	echo ""
-	echo "1. Voltar"
-e	cho "2. Sair"
-
-r	ead -p "Escolha uma opção: " caso
-
-i	f [ "$caso" == "1" ]; then
-    .	/admin.sh
-	fi
-
-	if [ "$caso" == "2" ]; then
-    	cd ..
-    	cd session
-    	./auth.sh
-fi
-COMMENT
+function listFiliates {
+ awk -F':' '$3 >= 1200 && $1 != "nogroup" {print $1}' /etc/group
  
+    echo ""
+    echo "1. Voltar"
+    echo "2. Sair"
+    
+    read -p "Escolha uma opção: " caso
+
+    if [ "$caso" == "1" ]; then
+        ./filiates.sh
+    fi
+    			
+    if [ "$caso" == "2" ]; then
+    	 cd ..
+    	 cd users
+    	 ./admin.sh
+    fi
 }
+
+
+
+clear
+echo "Filiais Kipipa"
+echo "------------------"
+usuario=$(whoami)
+nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
+echo "Bem vindo/a $nome"
+
+echo ""
+echo "1. Ver Filiais"
+echo "2. Criar Filiais"
+echo "3. Eliminar Filiais"
+echo "3. Entrar Filiais"
+	
+echo "Escolha uma das opcoes: "
+
+echo ""
+
+read option
+
+echo ""
+
+case $option in 
+	
+	1) 
+		listFiliates	
+		;;
+	2) 
+		createFiliates
+		
+		;;
+	3) 
+		delFiliates
+		
+		;;
+	4) 
+		
+		;;
+	
+	*) 
+		echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
+		echo ""
+		;;	
+esac
+
+		
+	
+
+
+
+
+
+ 

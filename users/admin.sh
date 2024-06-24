@@ -200,7 +200,9 @@ done
 clear
 echo "MENU ADMINISTRADOR"
 echo "------------------"
-echo "---"
+usuario=$(whoami)
+nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
+echo "Bem vindo/a $nome"
 echo " 
 1. Adicionar Medicos
 2. Eliminar Medicos
