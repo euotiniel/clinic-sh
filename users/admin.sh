@@ -192,11 +192,6 @@ function deleteEmployee {
 done   
 }
 
-
-
-
-
-
 clear
 echo "MENU ADMINISTRADOR"
 echo "------------------"
