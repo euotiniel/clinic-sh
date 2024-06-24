@@ -12,18 +12,30 @@ if [ "$(getent passwd "$opcao" | cut -d: -f3)" -eq 1000 ]; then
     chmod +x login.sh
     ./login.sh
     ./admin.sh
-else
-    if getent passwd "$opcao" > /dev/null; then
+ else
+    if [ "$(getent passwd "$opcao" | cut -d: -f3)" -ge 1100 ] && [ "$(getent passwd "$opcao" | cut -d: -f3)" -le 1199 ]; then
+        su "$opcao"
+        cd ..
+        cd users
+        chmod +x login.sh
+	./login.sh
+        ./patient.sh
+ else
+     if [ "$(getent passwd "$opcao" | cut -d: -f3)" -ge 1001 ] && [ "$(getent passwd "$opcao" | cut -d: -f3)" -le 1099 ]; then
         su "$opcao"
         cd ..
         cd users
         chmod +x login.sh
 	./login.sh
         ./doctor.sh
-else
+        
+          else
         echo "Usuário $opcao não existe!"
+        
+        fi
     fi
-fi
+  fi
+ 
 
 echo -e "1. Tentar Novamente"
 echo -e "2. Sair"

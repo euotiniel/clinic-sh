@@ -26,7 +26,7 @@ function addDoctor {
 
 function listDoctor {
 
-    awk -F':' '$3 >= 1002 && $3 <= 1099 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
+    awk -F':' '$3 >= 1001 && $3 <= 1099 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
 	
     echo ""
     echo "1. Voltar"
@@ -56,7 +56,7 @@ function deleteDoctor {
    fi
 	
     echo ""	
-    echo "1. Voltar"
+    echo "1. Voltar"	
     echo "2. Sair"
     echo "3. Continuar"
     
@@ -148,8 +148,8 @@ function listEmployee {
     			
     if [ "$caso" == "2" ]; then
     	 cd ..
-    	 cd session
-    	 ./auth.sh
+    	 cd auth
+    	 ./login.sh
     fi
 }
 
@@ -182,8 +182,8 @@ function deleteEmployee {
             ;;
         3)
             cd ..
-    	    cd session
-    	   ./auth.sh
+    	    cd auth
+    	   ./login.sh
             ;;
         *)
             echo "Opção inválida. Por favor, escolha novamente."
@@ -194,75 +194,13 @@ done
 
 
 
-function delFiliates {
 
-	echo "Qual Filial deseja apagar?!"
-	read nome
-	
-	usuarios=$(getent group $nome | cut -d: -f4)
-	for usuario in $usuarios; do
-        deluser $usuario $nome
-        done
-	groupdel $grupo
-	
-}
-
-function createFiliates {
-	
-    next_uid=1200
-
-    while true; do
-    echo "Insira o nome de usuário da Filial (ou 'q' para sair):"
-    read user
-
-    if [[ "$user" == "q" ]]; then
-        break
-    fi
-
-    sudo addgroup --uid $next_uid "$user"
-    ((next_uid++))
-
-    echo "Filial '$user' adicionado com UID ."
-    done
-	
-}
-
-function filiates {
-
-
-	echo "1. Ver Filiais"
-	echo "2. Eliminar Filiais"
-	echo "3. Entrar Filiais"
-	
-
-	: <<'COMMENT'
-	echo "Escolha o nome da Filial"
-	read nome
-	sudo addgroup $nome --force-badname
-
-	echo ""
-	echo "1. Voltar"
-e	cho "2. Sair"
-
-r	ead -p "Escolha uma opção: " caso
-
-i	f [ "$caso" == "1" ]; then
-    .	/admin.sh
-	fi
-
-	if [ "$caso" == "2" ]; then
-    	cd ..
-    	cd session
-    	./auth.sh
-fi
-COMMENT
- 
-}
 
 
 clear
 echo "MENU ADMINISTRADOR"
 echo "------------------"
+echo "---"
 echo " 
 1. Adicionar Medicos
 2. Eliminar Medicos
@@ -304,19 +242,23 @@ case $option in
 		;;
 		
 	7) 	
-		filiates
+		cd ..
+		cd create
+		chmod a+x filiates.sh
+		./filiates.sh
 		;;	
 	8) 	
 		cleanSystem
 		;;	
-	9) 
+	9) 	
+		echo "LOGS"
 		
 		;;	
 	10) 
 		cd ..
-		cd session
-		chmod +x auth.sh
-		./auth.sh
+		cd auth
+		chmod +x login.sh
+		./login.sh
 		;;	
 	*) 
 		echo "Opcao nao disponivel, escolha um dos numeros apresentados!"

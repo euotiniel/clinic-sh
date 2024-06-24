@@ -1,4 +1,4 @@
 
-PROJECT_URL="/home/euotinielpc/Documents/ucan/SO/proj/clinica-so"
+PROJECT_URL="/home/abelfelix/Documents/SO/clinica-so"
 
 
