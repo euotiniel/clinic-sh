@@ -129,6 +129,7 @@ echo "1. Ver Filiais"
 echo "2. Criar Filiais"
 echo "3. Eliminar Filiais"
 echo "3. Entrar Filiais"
+echo "4. Sair"
 	
 echo "Escolha uma das opcoes: "
 
@@ -152,7 +153,10 @@ case $option in
 		
 		;;
 	4) 
-		
+		cd ..
+		cd users
+		chmod a+x ./admin.sh
+		./admin.sh
 		;;
 	
 	*) 
