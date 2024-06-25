@@ -1,3 +1,4 @@
 1;otoniel;M;12-34-5678;123456789;12-34-5678;Dermatologia
  
-3;fabiana;F;12-34-5678;123456789;12-34-5678;Ginecologia
+ 
+4;otoniel;M;98-76-7898;987654345;98-78-9876;Dermatologia;Não grave
