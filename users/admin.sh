@@ -17,13 +17,13 @@ log_error(){
 usuario=$(whoami)
 function addDoctor {
 	clear
-log_info "O usuário $usuario adicionou o Medico $opcao"
 
     echo "Insira o nome de usuario do Medico"
     read user 
 
     sudo adduser $user
     echo "Medico adicionado com Sucesso!"
+    log_info "O usuário $usuario adicionou o Medico $user"
     
     read  caso
     echo "1. Voltar"
@@ -64,7 +64,6 @@ function listDoctor {
 
 function deleteDoctor {
 	clear
-	log_info "O usuário $usuario apagou o Medico $opcao"
 	
     echo "Qual Medico pretende deletar?"
     read opcao
@@ -74,7 +73,7 @@ function deleteDoctor {
    else
    echo "Usuário $opcao não existe!"
    fi
-	
+	log_info "O usuário $usuario apagou o Medico $opcao"
     echo ""	
     echo "1. Voltar"	
     echo "2. Sair"
@@ -115,15 +114,14 @@ function cleanSystem {
     			
     if [ "$caso" == "2" ]; then
     	 cd ..
-    	 cd session
-    	 ./auth.sh
+    	 cd auth
+    	 ./login.sh
     fi
 
 }
 
 function addEmployee {
 	clear
-log_info "O usuário $usuario adicionou o Funcionario $user"
     next_uid=1100
 
     while true; do
@@ -139,6 +137,7 @@ log_info "O usuário $usuario adicionou o Funcionario $user"
 
     echo "Usuário '$user' adicionado com UID $next_uid."
     done
+    log_info "O usuário $usuario adicionou o Funcionario $user"
     
     read  caso
     echo "1. Voltar"
@@ -180,14 +179,14 @@ function listEmployee {
 function deleteEmployee {
 
 clear
-log_info "O usuário $usuario apagou o Funcionario $user"
+
     remove_user() {
     read user
 
     sudo deluser "$user"
     echo "Usuário '$user' removido."
 }
-
+log_info "O usuário $usuario apagou o Funcionario $user"
 
     while true; do
     echo "Selecione uma opção:"
@@ -216,6 +215,42 @@ log_info "O usuário $usuario apagou o Funcionario $user"
     esac
 done   
 }
+
+function logs {
+
+	echo "1. Ver logs de erro"
+	echo "2. Ver logs de Informacao"
+	echo "3. Voltar"
+	echo "4. Sair"
+	
+	read -p "Escolha uma opção: " opcao
+
+    	case $opcao in
+        1) 	clear
+		cd ..
+		cd logs
+		cat error.log
+            
+            ;;
+        2) 	clear
+		cd ..
+		cd logs
+		cat system.log
+            
+            ;;
+        3) 	clear
+       		./admin.sh
+            
+            ;;
+        4)
+            cd ..
+    	    cd auth
+    	   ./login.sh
+            ;;
+        *)
+            echo "Opção inválida. Por favor, escolha novamente."
+            ;;	
+            }
 
 clear
 echo "------------------"
@@ -274,8 +309,8 @@ case $option in
 		cleanSystem
 		;;	
 	9) 	
-		echo "LOGS"
-		
+		clear
+		logs 	
 		;;	
 	10) 
 		cd ..
