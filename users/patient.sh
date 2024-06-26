@@ -255,20 +255,6 @@ function scheduleExams {
 
     file="$database_dir/consultations_done.txt"
 
-    # if [ ! -s "$file" ]; then
-    #     echo -e "Nenhuma marcação encontrada."
-    #     echo ""
-
-    #     while true; do
-    #         read -p "Digite 1 para voltar: " caso
-
-    #         if [ "$caso" == "1" ]; then
-    #             ./patient.sh
-    #             return
-    #         fi
-    #     done
-    # fi
-
     found=false
 
     while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
@@ -279,11 +265,18 @@ function scheduleExams {
             echo "Data de Nascimento: $birth"
             echo "Telefone: $phone"
             echo "Dia da Consulta: $consultationDay"
-            echo "Area de consulta: $area"
+            echo "Área de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
             echo "-------------------"
             found=true
+
+            if [ "$status" == "Grave" ]; then
+                paid=false
+            else
+                payExams
+                paid=true
+            fi
 
             subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
@@ -294,16 +287,11 @@ function scheduleExams {
                 echo ""
             fi
 
-            # Remover linha do arquivo
-            # sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
-
             break 
         fi
     done <"$file"
 
     if ! $found; then
-        # echo "Nenhum registro encontrado com o ID $search_id."
-
         echo "Nenhum registro encontrado."
 
         echo ""
@@ -348,7 +336,7 @@ function scheduleExams {
         while true; do
             read -p "Telefone: " phone
             if [[ ! "$phone" =~ ^[0-9]{9,13}$ ]]; then
-                echo "Telefone inválido. Deve conter entre 9 e 13 (+244) dígitos numéricos."
+                echo "Telefone inválido. Deve conter entre 9 e 13 dígitos numéricos."
             else
                 break
             fi
@@ -403,7 +391,7 @@ function scheduleExams {
         if [ "$status" == "Grave" ]; then
             paid=false
         else
-            payMarking
+            payExams
             paid=true
         fi
 
@@ -425,7 +413,6 @@ function scheduleExams {
 
     echo ""
 
-
     while true; do
         read -p "Digite 1 para voltar: " caso
 
@@ -435,6 +422,7 @@ function scheduleExams {
         fi
     done
 }
+
 
 function checkExams {
     clear
@@ -667,13 +655,13 @@ function payMarking {
             ;;
         2)
             echo ""
-            echo "Pagamento com tranferencia selecionado"
+            echo "Pagamento com transferência selecionado"
             echo ""
             echo "Valor a pagar: 10.000 kzs"
             echo ""
-            echo "Referencia: AO06.0040.0000.3301.4458.1018.5"
+            echo "Referência: AO06.0040.0000.3301.4458.1018.5"
             echo ""
-            echo -e "1. Confirmar recepcao do comprovativo"
+            echo -e "1. Confirmar recepção do comprovativo"
             echo ""
 
             while true; do
@@ -695,8 +683,68 @@ function payMarking {
     done
 }
 
-function payNowExams {
-    echo "Pagar exame agora, porra!"
+
+function payExams {
+        echo ""
+    echo "PAGAMENTO DO EXAME"
+    echo "----------------------"
+    echo ""
+    echo "Seleciona a forma de pagamento:"
+    echo "
+1 - Dinheiro
+2 - Transferência
+    "
+
+    while true; do
+        read -p "Seleciona uma das opcoes: " option
+
+        case $option in
+        1)
+            echo ""
+            echo "Pagamento em Dinheiro selecionado."
+            echo ""
+            echo "Valor a pagar: 25.000 kzs"
+            echo ""
+            echo -e "1. Confirmar"
+            echo ""
+
+            while true; do
+                read confirm
+
+                if [ "$confirm" == "1" ]; then
+                    break
+                fi
+            done
+            break
+            ;;
+        2)
+            echo ""
+            echo "Pagamento com transferência selecionado"
+            echo ""
+            echo "Valor a pagar: 25.000 kzs"
+            echo ""
+            echo "Referência: AO06.0040.0000.3301.4458.1018.5"
+            echo ""
+            echo -e "1. Confirmar recepção do comprovativo"
+            echo ""
+
+            while true; do
+                read confirm
+
+                if [ "$confirm" == "1" ]; then
+                    break
+                fi
+            done
+            break
+            ;;
+        *)
+            echo ""
+            echo "Opção inválida. Por favor, selecione 1 ou 2."
+            echo ""
+            ;;
+        esac
+
+    done
 }
 
 # Main

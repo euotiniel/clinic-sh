@@ -1,0 +1,4 @@
+1;SABA;M;12-31-3131;121212121;12-12-1212;Fisioterapia;Grave;false
+2;SABA;M;12-31-3131;121212121;12-12-1212;Fisioterapia;Grave;false
+3;EMANUELA;F;12-34-5678;123456789;12-34-5678;Dermatologia;Não grave;true
+4;EMANUELA;F;12-34-5678;123456789;12-34-5678;Dermatologia;Não grave;true
