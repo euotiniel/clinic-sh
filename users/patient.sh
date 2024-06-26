@@ -14,6 +14,13 @@ patients_exame_db="$database_dir/patients_exame_marc.txt"
 
 patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
+consultations_done="$database_dir/consultations_done.txt"
+
+doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
+
+doctor_exame_historic="$database_dir/historic/doctor_exame_historic_doctor.txt"
+
+
 if [ -d "$database_dir/historic" ]; then
     echo ""
 else
@@ -36,6 +43,17 @@ if [ ! -f "$patients_exame_historic" ]; then
     touch "$patients_exame_historic"
 fi
 
+if [ ! -f "$doctor_consulta_historic" ]; then
+    touch "$doctor_consulta_historic"
+fi
+
+if [ ! -f "$doctor_exame_historic" ]; then
+    touch "$doctor_exame_historic"
+fi
+
+if [ ! -f "$consultations_done" ]; then
+    touch "$consultations_done"
+fi
 # Functions
 
 function makeMarking {

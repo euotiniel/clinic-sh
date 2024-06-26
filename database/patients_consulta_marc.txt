@@ -1,2 +1,0 @@
- 
-2;fabi;M;12-34-5678;123456789;12-34-5678;Ginecologia;Não grave;true
