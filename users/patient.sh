@@ -16,12 +16,12 @@ patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
 consultations_done="$database_dir/consultations_done.txt"
 
-exams_done="$database_dir/exams_done.txt"
+
+exames_done="$database_dir/exames_done.txt"
 
 doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
 
 doctor_exame_historic="$database_dir/historic/doctor_exame_historic_doctor.txt"
-
 
 if [ -d "$database_dir/historic" ]; then
     echo ""
@@ -60,6 +60,11 @@ fi
 if [ ! -f "$consultations_done" ]; then
     touch "$consultations_done"
 fi
+
+if [ ! -f "$exames_done" ]; then
+    touch "$exames_done"
+fi
+
 # Functions
 
 function makeMarking {
@@ -166,7 +171,7 @@ function makeMarking {
         paid=true
     fi
 
-    file="$PROJECT_URL/database/patients_consulta_marc.txt"
+    file="$database_dir/patients_consulta_marc.txt"
     id=$(wc -l <"$file")
     id=$((id + 1))
 
@@ -179,8 +184,7 @@ function makeMarking {
     fi
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
+
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -198,12 +202,10 @@ function consultMarking {
     echo -e "CONSULTAR MARCACOES"
     echo ""
 
-    file="$PROJECT_URL/database/patients_consulta_marc.txt"
+    file="$database_dir/patients_consulta_marc.txt"
 
     if [ ! -f "$file" ] || [ ! -s "$file" ]; then
         echo -e "Lista de marcacoes vazia."
-        echo ""
-        echo -e "1. Voltar"
         echo ""
 
         while true; do
@@ -234,8 +236,7 @@ function consultMarking {
     done <"$file"
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
+
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -257,7 +258,8 @@ function scheduleExams {
     echo -e "Id da consulta: "
     read search_id
 
-    file="$PROJECT_URL/database/consultations_done.txt"
+
+    file="$database_dir/consultations_done.txt"
 
     found=false
 
@@ -269,11 +271,18 @@ function scheduleExams {
             echo "Data de Nascimento: $birth"
             echo "Telefone: $phone"
             echo "Dia da Consulta: $consultationDay"
-            echo "Area de consulta: $area"
+            echo "Área de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
             echo "-------------------"
             found=true
+
+            if [ "$status" == "Grave" ]; then
+                paid=false
+            else
+                payExams
+                paid=true
+            fi
 
             subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
@@ -284,23 +293,17 @@ function scheduleExams {
                 echo ""
             fi
 
-            # Remover linha do arquivo
-            # sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
-
             break 
         fi
     done <"$file"
 
     if ! $found; then
-        # echo "Nenhum registro encontrado com o ID $search_id."
-
         echo "Nenhum registro encontrado."
 
         echo ""
         echo -e "Digite os dados do paciente:"
         echo ""
 
-        # Coletar dados para agendar exame
         while true; do
             read -p "Nome: " name
             if [[ -z "$name" ]]; then
@@ -339,7 +342,7 @@ function scheduleExams {
         while true; do
             read -p "Telefone: " phone
             if [[ ! "$phone" =~ ^[0-9]{9,13}$ ]]; then
-                echo "Telefone inválido. Deve conter entre 9 e 13 (+244) dígitos numéricos."
+                echo "Telefone inválido. Deve conter entre 9 e 13 dígitos numéricos."
             else
                 break
             fi
@@ -394,14 +397,14 @@ function scheduleExams {
         if [ "$status" == "Grave" ]; then
             paid=false
         else
-            payMarking
+            payExams
             paid=true
         fi
 
         subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
         # Salvar os dados do exame no arquivo
-        file="$PROJECT_URL/database/patients_exame_marc.txt"
+        file="$database_dir/patients_exame_marc.txt"
 
         id=$(wc -l <"$file")
         id=$((id + 1))
@@ -415,8 +418,6 @@ function scheduleExams {
     fi
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -428,6 +429,7 @@ function scheduleExams {
     done
 }
 
+
 function checkExams {
     clear
     echo ""
@@ -435,12 +437,10 @@ function checkExams {
     echo ""
 
     # Verifica se o arquivo existe
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
+    file="$database_dir/patients_exame_marc.txt"
 
     if [ ! -s "$file" ]; then
         echo -e "Nenhuma marcao de exame."
-        echo ""
-        echo -e "1. Voltar"
         echo ""
 
         while true; do
@@ -472,8 +472,6 @@ function checkExams {
     done <"$file"
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -481,6 +479,124 @@ function checkExams {
         if [ "$caso" == "1" ]; then
             ./patient.sh
             break
+        fi
+    done
+}
+
+function noPaymentMarking {
+    clear
+    echo ""
+    echo -e "Consultas com Pagamento em Atraso"
+    echo ""
+
+    file="$consultations_done"
+
+    # if [ ! -s "$file" ]; then
+    #     echo -e "Nenhuma marcação encontrada."
+    #     echo ""
+    #     echo -e "1. Voltar"
+    #     echo ""
+
+    #     while true; do
+    #         read -p "Digite 1 para voltar: " caso
+
+    #         if [ "$caso" == "1" ]; then
+    #             ./patient.sh
+    #             return
+    #         fi
+    #     done
+    # fi
+
+    found=false
+
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+        if [[ "$paid" == "false" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Genero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pago: $paid"
+            echo "-------------------"
+            found=true
+        fi
+    done < "$file"
+
+    if ! $found; then
+        echo "Nenhum pagamento em atraso encontrado."
+    fi
+
+    echo ""
+
+
+    while true; do
+        read -p "Digite 1 para voltar: " caso
+
+        if [ "$caso" == "1" ]; then
+            ./patient.sh
+            return
+        fi
+    done
+}
+
+function noPaymentExames {
+    clear
+    echo ""
+    echo -e "Exames com Pagamento em Atraso"
+    echo ""
+
+    file="$exames_done"
+
+    # if [ ! -s "$file" ]; then
+    #     echo -e "Nenhuma marcação encontrada."
+    #     echo ""
+    #     echo -e "1. Voltar"
+    #     echo ""
+
+    #     while true; do
+    #         read -p "Digite 1 para voltar: " caso
+
+    #         if [ "$caso" == "1" ]; then
+    #             ./patient.sh
+    #             return
+    #         fi
+    #     done
+    # fi
+    
+    found=false
+
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+        if [[ "$paid" == "false" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Genero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pago: $paid"
+            echo "-------------------"
+            found=true
+        fi
+    done < "$file"
+
+    if ! $found; then
+        echo "Nenhum pagamento em atraso encontrado."
+    fi
+
+    echo ""
+
+
+    while true; do
+        read -p "Digite 1 para voltar: " caso
+
+        if [ "$caso" == "1" ]; then
+            ./patient.sh
+            return
         fi
     done
 }
@@ -495,7 +611,7 @@ function subFunctionScheduleExam {
     local status="$7"
     local paid="$8"
 
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
+    file="$database_dir/patients_exame_marc.txt"
 
     id=$(wc -l <"$file")
 
@@ -545,13 +661,13 @@ function payMarking {
             ;;
         2)
             echo ""
-            echo "Pagamento com tranferencia selecionado"
+            echo "Pagamento com transferência selecionado"
             echo ""
             echo "Valor a pagar: 10.000 kzs"
             echo ""
-            echo "Referencia: AO06.0040.0000.3301.4458.1018.5"
+            echo "Referência: AO06.0040.0000.3301.4458.1018.5"
             echo ""
-            echo -e "1. Confirmar recepcao do comprovativo"
+            echo -e "1. Confirmar recepção do comprovativo"
             echo ""
 
             while true; do
@@ -573,8 +689,68 @@ function payMarking {
     done
 }
 
-function payNowExams {
-    echo "Pagar exame agora, porra!"
+
+function payExams {
+        echo ""
+    echo "PAGAMENTO DO EXAME"
+    echo "----------------------"
+    echo ""
+    echo "Seleciona a forma de pagamento:"
+    echo "
+1 - Dinheiro
+2 - Transferência
+    "
+
+    while true; do
+        read -p "Seleciona uma das opcoes: " option
+
+        case $option in
+        1)
+            echo ""
+            echo "Pagamento em Dinheiro selecionado."
+            echo ""
+            echo "Valor a pagar: 25.000 kzs"
+            echo ""
+            echo -e "1. Confirmar"
+            echo ""
+
+            while true; do
+                read confirm
+
+                if [ "$confirm" == "1" ]; then
+                    break
+                fi
+            done
+            break
+            ;;
+        2)
+            echo ""
+            echo "Pagamento com transferência selecionado"
+            echo ""
+            echo "Valor a pagar: 25.000 kzs"
+            echo ""
+            echo "Referência: AO06.0040.0000.3301.4458.1018.5"
+            echo ""
+            echo -e "1. Confirmar recepção do comprovativo"
+            echo ""
+
+            while true; do
+                read confirm
+
+                if [ "$confirm" == "1" ]; then
+                    break
+                fi
+            done
+            break
+            ;;
+        *)
+            echo ""
+            echo "Opção inválida. Por favor, selecione 1 ou 2."
+            echo ""
+            ;;
+        esac
+
+    done
 }
 
 # Main
@@ -616,9 +792,12 @@ case $option in
     checkExams
     ;;
 5)
-    echo ""
+    noPaymentMarking
     ;;
 6)
+    noPaymentExames
+    ;;
+7)
     clear
     cd ..
     cd auth

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-PROJECT_URL="/home/monarca7/Documents/clinica-so/clinica-so"
+PROJECT_URL="/home/fabiana/Documents/SO I/clinica-so"
 

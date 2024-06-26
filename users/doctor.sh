@@ -4,7 +4,7 @@ source ../config.sh
 
 # Sets
 
-database_dir="$PROJECT_URL/database"
+database_dir="$database_dir"
 
 patients_consulta_db="$database_dir/patients_consulta_marc.txt"
 
@@ -30,7 +30,7 @@ function myqueries {
 	echo -e "MINHAS CONSULTAS"
 	echo ""
 
-	file="$PROJECT_URL/database/patients_consulta_marc.txt"
+	file="$database_dir/patients_consulta_marc.txt"
 
 	if [ ! -f "$file" ] || [ ! -s "$file" ]; then
 		echo -e "Lista de marcacoes vazia."
@@ -88,7 +88,7 @@ function carryconsultations {
     echo -e "Id da consulta: "
     read search_id
 
-    file="$PROJECT_URL/database/patients_consulta_marc.txt"
+    file="$database_dir/patients_consulta_marc.txt"
 
     found=false
 
@@ -120,15 +120,14 @@ function carryconsultations {
             fi
 
             # Remover linha do arquivo
-            sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
+            sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
 
             break  # Sair do loop após encontrar o registro
         fi
 	done <"$file"
 
 	echo ""
-    echo -e "1. Voltar"
-    echo ""
+
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -376,7 +375,7 @@ function subFunctionScheduleExam {
 	local nota="$8"
 
 
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
+    file="$database_dir/patients_exame_marc.txt"
 
     id=$(wc -l <"$file")
 
