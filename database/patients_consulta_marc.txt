@@ -1,1 +1,0 @@
-1;OTOMI;M;12-34-5678;123456789;12-32-1232;Fisioterapia;Não grave;true
