@@ -1,9 +1,24 @@
 #!/bin/bash
 
+# Definindo o diretório de logs
+logs="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/logs"
+
+# Função para registrar informações no log
+log_info(){
+   echo "[$(date +'%Y-%m-%d %H:%M:%S')] [INFO] $1" >> "$logs/system.log"
+}
+
+# Função para registrar erros no log
+log_error(){
+   echo "[$(date +'%Y-%m-%d %H:%M:%S')] [ERROR] $1" >> "$logs/error.log"
+}
 # Funcoes
 
+usuario=$(whoami)
 function addDoctor {
 	clear
+log_info "O usuário $usuario adicionou o Medico $opcao"
+
     echo "Insira o nome de usuario do Medico"
     read user 
 
@@ -26,6 +41,8 @@ function addDoctor {
 
 function listDoctor {
 	clear
+	
+	log_info "O usuário $usuario acessou a lista dos Medicos"
 
     awk -F':' '$3 >= 1001 && $3 <= 1099 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
 	
@@ -47,6 +64,7 @@ function listDoctor {
 
 function deleteDoctor {
 	clear
+	log_info "O usuário $usuario apagou o Medico $opcao"
 	
     echo "Qual Medico pretende deletar?"
     read opcao
@@ -79,6 +97,7 @@ function deleteDoctor {
 
 function cleanSystem {
 	clear
+	log_info "O usuário $usuario fez limpeza no sistema"
 
     sudo apt-get autoremove
     sudo apt-get autoclean
@@ -104,7 +123,7 @@ function cleanSystem {
 
 function addEmployee {
 	clear
-
+log_info "O usuário $usuario adicionou o Funcionario $user"
     next_uid=1100
 
     while true; do
@@ -137,6 +156,7 @@ function addEmployee {
 
 function listEmployee {
 	clear
+	log_info "O usuário $usuario acessou a lista de Funcionarios"
     awk -F':' '$3 >= 1100 && $3 <= 1199 && $1 != "nobody" {print $5}' /etc/passwd | cut -d',' -f1
 
   
@@ -160,9 +180,8 @@ function listEmployee {
 function deleteEmployee {
 
 clear
-
+log_info "O usuário $usuario apagou o Funcionario $user"
     remove_user() {
-    echo "Insira o nome de usuário para remover:"
     read user
 
     sudo deluser "$user"
@@ -199,6 +218,7 @@ done
 }
 
 clear
+echo "------------------"
 echo "MENU ADMINISTRADOR"
 echo "------------------"
 usuario=$(whoami)
