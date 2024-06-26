@@ -16,6 +16,8 @@ patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
 consultations_done="$database_dir/consultations_done.txt"
 
+exams_done="$database_dir/exams_done.txt"
+
 doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
 
 doctor_exame_historic="$database_dir/historic/doctor_exame_historic_doctor.txt"
@@ -49,6 +51,10 @@ fi
 
 if [ ! -f "$doctor_exame_historic" ]; then
     touch "$doctor_exame_historic"
+fi
+
+if [ ! -f "$exams_done" ]; then
+    touch "$exams_done"
 fi
 
 if [ ! -f "$consultations_done" ]; then
@@ -251,7 +257,7 @@ function scheduleExams {
     echo -e "Id da consulta: "
     read search_id
 
-    file="$PROJECT_URL/database/consultas_done.txt"
+    file="$PROJECT_URL/database/consultations_done.txt"
 
     found=false
 
