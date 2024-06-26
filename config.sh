@@ -1,2 +1,3 @@
 
-PROJECT_URL="/home/monarca7/Documents/clinica-so/clinica-so"
+PROJECT_URL="digite o comando pwd no diretorio do projecto e copie o resultado aqui"
+
