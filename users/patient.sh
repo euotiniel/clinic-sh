@@ -16,10 +16,11 @@ patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
 consultations_done="$database_dir/consultations_done.txt"
 
+exames_done="$database_dir/exames_done.txt"
+
 doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
 
 doctor_exame_historic="$database_dir/historic/doctor_exame_historic_doctor.txt"
-
 
 if [ -d "$database_dir/historic" ]; then
     echo ""
@@ -54,6 +55,11 @@ fi
 if [ ! -f "$consultations_done" ]; then
     touch "$consultations_done"
 fi
+
+if [ ! -f "$exames_done" ]; then
+    touch "$exames_done"
+fi
+
 # Functions
 
 function makeMarking {
@@ -160,7 +166,7 @@ function makeMarking {
         paid=true
     fi
 
-    file="$PROJECT_URL/database/patients_consulta_marc.txt"
+    file="$database_dir/patients_consulta_marc.txt"
     id=$(wc -l <"$file")
     id=$((id + 1))
 
@@ -173,8 +179,7 @@ function makeMarking {
     fi
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
+
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -192,12 +197,10 @@ function consultMarking {
     echo -e "CONSULTAR MARCACOES"
     echo ""
 
-    file="$PROJECT_URL/database/patients_consulta_marc.txt"
+    file="$database_dir/patients_consulta_marc.txt"
 
     if [ ! -f "$file" ] || [ ! -s "$file" ]; then
         echo -e "Lista de marcacoes vazia."
-        echo ""
-        echo -e "1. Voltar"
         echo ""
 
         while true; do
@@ -228,8 +231,7 @@ function consultMarking {
     done <"$file"
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
+
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -251,7 +253,21 @@ function scheduleExams {
     echo -e "Id da consulta: "
     read search_id
 
-    file="$PROJECT_URL/database/consultas_done.txt"
+    file="$database_dir/consultations_done.txt"
+
+    # if [ ! -s "$file" ]; then
+    #     echo -e "Nenhuma marcação encontrada."
+    #     echo ""
+
+    #     while true; do
+    #         read -p "Digite 1 para voltar: " caso
+
+    #         if [ "$caso" == "1" ]; then
+    #             ./patient.sh
+    #             return
+    #         fi
+    #     done
+    # fi
 
     found=false
 
@@ -279,7 +295,7 @@ function scheduleExams {
             fi
 
             # Remover linha do arquivo
-            # sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
+            # sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
 
             break 
         fi
@@ -294,7 +310,6 @@ function scheduleExams {
         echo -e "Digite os dados do paciente:"
         echo ""
 
-        # Coletar dados para agendar exame
         while true; do
             read -p "Nome: " name
             if [[ -z "$name" ]]; then
@@ -395,7 +410,7 @@ function scheduleExams {
         subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
         # Salvar os dados do exame no arquivo
-        file="$PROJECT_URL/database/patients_exame_marc.txt"
+        file="$database_dir/patients_exame_marc.txt"
 
         id=$(wc -l <"$file")
         id=$((id + 1))
@@ -409,8 +424,7 @@ function scheduleExams {
     fi
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
+
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -429,12 +443,10 @@ function checkExams {
     echo ""
 
     # Verifica se o arquivo existe
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
+    file="$database_dir/patients_exame_marc.txt"
 
     if [ ! -s "$file" ]; then
         echo -e "Nenhuma marcao de exame."
-        echo ""
-        echo -e "1. Voltar"
         echo ""
 
         while true; do
@@ -466,8 +478,6 @@ function checkExams {
     done <"$file"
 
     echo ""
-    echo -e "1. Voltar"
-    echo ""
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -475,6 +485,124 @@ function checkExams {
         if [ "$caso" == "1" ]; then
             ./patient.sh
             break
+        fi
+    done
+}
+
+function noPaymentMarking {
+    clear
+    echo ""
+    echo -e "Consultas com Pagamento em Atraso"
+    echo ""
+
+    file="$consultations_done"
+
+    # if [ ! -s "$file" ]; then
+    #     echo -e "Nenhuma marcação encontrada."
+    #     echo ""
+    #     echo -e "1. Voltar"
+    #     echo ""
+
+    #     while true; do
+    #         read -p "Digite 1 para voltar: " caso
+
+    #         if [ "$caso" == "1" ]; then
+    #             ./patient.sh
+    #             return
+    #         fi
+    #     done
+    # fi
+
+    found=false
+
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+        if [[ "$paid" == "false" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Genero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pago: $paid"
+            echo "-------------------"
+            found=true
+        fi
+    done < "$file"
+
+    if ! $found; then
+        echo "Nenhum pagamento em atraso encontrado."
+    fi
+
+    echo ""
+
+
+    while true; do
+        read -p "Digite 1 para voltar: " caso
+
+        if [ "$caso" == "1" ]; then
+            ./patient.sh
+            return
+        fi
+    done
+}
+
+function noPaymentExames {
+    clear
+    echo ""
+    echo -e "Exames com Pagamento em Atraso"
+    echo ""
+
+    file="$exames_done"
+
+    # if [ ! -s "$file" ]; then
+    #     echo -e "Nenhuma marcação encontrada."
+    #     echo ""
+    #     echo -e "1. Voltar"
+    #     echo ""
+
+    #     while true; do
+    #         read -p "Digite 1 para voltar: " caso
+
+    #         if [ "$caso" == "1" ]; then
+    #             ./patient.sh
+    #             return
+    #         fi
+    #     done
+    # fi
+    
+    found=false
+
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+        if [[ "$paid" == "false" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Genero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pago: $paid"
+            echo "-------------------"
+            found=true
+        fi
+    done < "$file"
+
+    if ! $found; then
+        echo "Nenhum pagamento em atraso encontrado."
+    fi
+
+    echo ""
+
+
+    while true; do
+        read -p "Digite 1 para voltar: " caso
+
+        if [ "$caso" == "1" ]; then
+            ./patient.sh
+            return
         fi
     done
 }
@@ -489,7 +617,7 @@ function subFunctionScheduleExam {
     local status="$7"
     local paid="$8"
 
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
+    file="$database_dir/patients_exame_marc.txt"
 
     id=$(wc -l <"$file")
 
@@ -610,9 +738,12 @@ case $option in
     checkExams
     ;;
 5)
-    echo ""
+    noPaymentMarking
     ;;
 6)
+    noPaymentExames
+    ;;
+7)
     clear
     cd ..
     cd auth
