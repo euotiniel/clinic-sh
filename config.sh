@@ -1,2 +1,2 @@
 
-PROJECT_URL="/home/euotinielpc/Documents/ucan/SO/proj/clinica-so"
+PROJECT_URL="/home/monarca7/Documents/clinica-so/clinica-so"
