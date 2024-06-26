@@ -118,7 +118,7 @@ function makeMarking {
             break
         fi
     done
-    
+
     while true; do
         echo -e "Estado do paciente: "
         echo "1 - Grave"
@@ -135,13 +135,20 @@ function makeMarking {
         fi
     done
 
+    if [ "$status" == "Grave" ]; then
+        paid=false
+    else
+        payMarking
+        paid=true
+    fi
+
     file="$PROJECT_URL/database/patients_consulta_marc.txt"
     id=$(wc -l <"$file")
     id=$((id + 1))
 
-    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status" >>"$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$file"; then
         echo ""
-        echo "Marcação feita com sucesso!"
+        echo "MARCACAO FEITA COM SUCESSO!"
     else
         echo ""
         echo "Erro ao salvar a marcação. Verifique as permissões ou tente novamente."
@@ -187,7 +194,7 @@ function consultMarking {
 
     echo -e "Lista de Marcacoes:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -197,6 +204,7 @@ function consultMarking {
             echo "Dia da Consulta: $consultationDay"
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
+            echo "Pago: $paid"
             echo "-------------------"
         fi
     done <"$file"
@@ -225,11 +233,11 @@ function scheduleExams {
     echo -e "Id da consulta: "
     read search_id
 
-    file="$PROJECT_URL/database/patients_consulta_marc.txt"
+    file="$PROJECT_URL/database/consultas_done.txt"
 
     found=false
 
-    while IFS=';' read -r id name gender birth phone consultationDay area status; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
         if [ "$id" == "$search_id" ]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -239,121 +247,134 @@ function scheduleExams {
             echo "Dia da Consulta: $consultationDay"
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
+            echo "Pago: $paid"
             echo "-------------------"
             found=true
 
-            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status"
+            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
             # Histórico
-            if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status" >>"$patients_consulta_historic"; then
+            if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$patients_consulta_historic"; then
                 echo ""
             else
                 echo ""
             fi
 
             # Remover linha do arquivo
-            sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
+            # sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
 
-            break  # Sair do loop após encontrar o registro
+            break 
         fi
     done <"$file"
 
     if ! $found; then
-        echo "Nenhum registro encontrado com o ID $search_id."
+        # echo "Nenhum registro encontrado com o ID $search_id."
+
+        echo "Nenhum registro encontrado."
+
+        echo ""
+        echo -e "Digite os dados do paciente:"
         echo ""
 
         # Coletar dados para agendar exame
         while true; do
-        read -p "Nome: " name
-        if [[ -z "$name" ]]; then
-            echo "Nome não pode estar vazio. Por favor, digite novamente."
-        else
-            break
-        fi
-    done
+            read -p "Nome: " name
+            if [[ -z "$name" ]]; then
+                echo "Nome não pode estar vazio. Por favor, digite novamente."
+            else
+                break
+            fi
+        done
 
-    while true; do
-        read -p "Gênero (M ou F): " gender
+        while true; do
+            read -p "Gênero (M ou F): " gender
 
-        if [[ "$gender" == "M" || "$gender" == "m" ]]; then
-            gender="M"
-            break
-        elif [[ "$gender" == "F" || "$gender" == "f" ]]; then
-            gender="F"
-            break
-        else
-            echo "Opção inválida. Escolha M para masculino ou F para feminino."
-        fi
-    done
+            if [[ "$gender" == "M" || "$gender" == "m" ]]; then
+                gender="M"
+                break
+            elif [[ "$gender" == "F" || "$gender" == "f" ]]; then
+                gender="F"
+                break
+            else
+                echo "Opção inválida. Escolha M para masculino ou F para feminino."
+            fi
+        done
 
-    while true; do
-        read -p "Data de nascimento (ddmmaaaa): " birth
-        if [[ ! "$birth" =~ ^[0-9]{8}$ ]]; then
-            echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
-        else
-            birth_formatted=$(echo "$birth" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
-            echo "$birth_formatted"
-            birth=$birth_formatted
-            break
-        fi
-    done
+        while true; do
+            read -p "Data de nascimento (ddmmaaaa): " birth
+            if [[ ! "$birth" =~ ^[0-9]{8}$ ]]; then
+                echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
+            else
+                birth_formatted=$(echo "$birth" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
+                echo "$birth_formatted"
+                birth=$birth_formatted
+                break
+            fi
+        done
 
-    while true; do
-        read -p "Telefone: " phone
-        if [[ ! "$phone" =~ ^[0-9]{9,13}$ ]]; then
-            echo "Telefone inválido. Deve conter entre 9 e 13 (+244) dígitos numéricos."
-        else
-            break
-        fi
-    done
+        while true; do
+            read -p "Telefone: " phone
+            if [[ ! "$phone" =~ ^[0-9]{9,13}$ ]]; then
+                echo "Telefone inválido. Deve conter entre 9 e 13 (+244) dígitos numéricos."
+            else
+                break
+            fi
+        done
 
-    while true; do
-        read -p "Dia da consulta (ddmmaaaa): " consultationDay
-        if [[ ! "$consultationDay" =~ ^[0-9]{8}$ ]]; then
-            echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
-        else
-            formatted=$(echo "$consultationDay" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
-            echo "$formatted"
-            consultationDay=$formatted
-            break
-        fi
-    done
+        while true; do
+            read -p "Dia da consulta (ddmmaaaa): " consultationDay
+            if [[ ! "$consultationDay" =~ ^[0-9]{8}$ ]]; then
+                echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
+            else
+                formatted=$(echo "$consultationDay" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
+                echo "$formatted"
+                consultationDay=$formatted
+                break
+            fi
+        done
 
-    while true; do
-        echo -e "Área da consulta (Digite o número da opção): "
-        echo "1 - Fisioterapia"
-        echo "2 - Dermatologia"
-        echo "3 - Ginecologia"
-        read area
-        if [[ "$area" != "1" && "$area" != "2" && "$area" != "3" ]]; then
-            echo "Opção inválida. Escolha uma das opções disponíveis."
-        else
-            case $area in
-            1) area="Fisioterapia" ;;
-            2) area="Dermatologia" ;;
-            3) area="Ginecologia" ;;
-            esac
-            break
-        fi
-    done
-    
-    while true; do
-        echo -e "Estado do paciente: "
-        echo "1 - Grave"
-        echo "2 - Não grave"
-        read status
-        if [[ "$status" != "1" && "$status" != "2" ]]; then
-            echo "Opção inválida. Escolha uma das opções disponíveis."
-        else
-            case $status in
-            1) status="Grave" ;;
-            2) status="Não grave" ;;
-            esac
-            break
-        fi
-    done
+        while true; do
+            echo -e "Área da consulta (Digite o número da opção): "
+            echo "1 - Fisioterapia"
+            echo "2 - Dermatologia"
+            echo "3 - Ginecologia"
+            read area
+            if [[ "$area" != "1" && "$area" != "2" && "$area" != "3" ]]; then
+                echo "Opção inválida. Escolha uma das opções disponíveis."
+            else
+                case $area in
+                1) area="Fisioterapia" ;;
+                2) area="Dermatologia" ;;
+                3) area="Ginecologia" ;;
+                esac
+                break
+            fi
+        done
 
-        subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status"
+        while true; do
+            echo -e "Estado do paciente: "
+            echo "1 - Grave"
+            echo "2 - Não grave"
+            read status
+            if [[ "$status" != "1" && "$status" != "2" ]]; then
+                echo "Opção inválida. Escolha uma das opções disponíveis."
+            else
+                case $status in
+                1) status="Grave" ;;
+                2) status="Não grave" ;;
+                esac
+                break
+            fi
+        done
+
+        if [ "$status" == "Grave" ]; then
+            paid=false
+        else
+            payMarking
+            paid=true
+        fi
+
+        subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
         # Salvar os dados do exame no arquivo
         file="$PROJECT_URL/database/patients_exame_marc.txt"
@@ -361,7 +382,7 @@ function scheduleExams {
         id=$(wc -l <"$file")
         id=$((id + 1))
 
-        if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status" >>"$file"; then
+        if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$file"; then
             echo ""
         else
             echo ""
@@ -382,7 +403,6 @@ function scheduleExams {
         fi
     done
 }
-
 
 function checkExams {
     clear
@@ -412,7 +432,7 @@ function checkExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -422,6 +442,7 @@ function checkExams {
             echo "Dia da Consulta: $consultationDay"
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
+            echo "Pago: " $paid
             echo "-------------------"
         fi
     done <"$file"
@@ -448,6 +469,7 @@ function subFunctionScheduleExam {
     local consultationDay="$5"
     local area="$6"
     local status="$7"
+    local paid="$8"
 
     file="$PROJECT_URL/database/patients_exame_marc.txt"
 
@@ -455,14 +477,80 @@ function subFunctionScheduleExam {
 
     id=$((id + 1))
 
-    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status" >>"$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$file"; then
         echo ""
         echo "Exame marcado com sucesso!"
     else
         echo ""
         echo "Ups! Erro ao salvar. Verifique as permissões ou tente novamente."
     fi
+}
 
+function payMarking {
+    echo ""
+    echo "PAGAMENTO DA CONSULTA"
+    echo "----------------------"
+    echo ""
+    echo "Seleciona a forma de pagamento:"
+    echo "
+1 - Dinheiro
+2 - Transferência
+    "
+
+    while true; do
+        read -p "Seleciona uma das opcoes: " option
+
+        case $option in
+        1)
+            echo ""
+            echo "Pagamento em Dinheiro selecionado."
+            echo ""
+            echo "Valor a pagar: 10.000 kzs"
+            echo ""
+            echo -e "1. Confirmar"
+            echo ""
+
+            while true; do
+                read confirm
+
+                if [ "$confirm" == "1" ]; then
+                    break
+                fi
+            done
+            break
+            ;;
+        2)
+            echo ""
+            echo "Pagamento com tranferencia selecionado"
+            echo ""
+            echo "Valor a pagar: 10.000 kzs"
+            echo ""
+            echo "Referencia: AO06.0040.0000.3301.4458.1018.5"
+            echo ""
+            echo -e "1. Confirmar recepcao do comprovativo"
+            echo ""
+
+            while true; do
+                read confirm
+
+                if [ "$confirm" == "1" ]; then
+                    break
+                fi
+            done
+            break
+            ;;
+        *)
+            echo ""
+            echo "Opção inválida. Por favor, selecione 1 ou 2."
+            echo ""
+            ;;
+        esac
+
+    done
+}
+
+function payNowExams {
+    echo "Pagar exame agora, porra!"
 }
 
 # Main
@@ -472,11 +560,13 @@ echo "MENU PACIENTE"
 echo "--------------"
 
 echo " 
-1. Fazer marcacao
-2. Consultar marcacoes
-3. Marcar exames
-4. Consultar exames
-5. Sair
+1 - Fazer marcacao
+2 - Consultar marcacoes
+3 - Marcar exames
+4 - Consultar exames
+5 - Pagamentos pendentes - Consultas
+6 - Pagamentos pendentes - Exames
+7 - Sair
 "
 
 echo "Escolha uma das opcoes: "
@@ -502,6 +592,9 @@ case $option in
     checkExams
     ;;
 5)
+    echo ""
+    ;;
+6)
     clear
     cd ..
     cd auth
