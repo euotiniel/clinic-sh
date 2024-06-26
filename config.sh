@@ -1,2 +1,3 @@
 
-PROJECT_URL="/home/abelfelix/Documents/SO/clinica-so"
+
+PROJECT_URL="/home/fabiana/Documents/SO I/clinica-so"
