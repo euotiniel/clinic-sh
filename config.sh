@@ -1,2 +1,3 @@
 
-PROJECT_URL="/home/abelfelix/Documents/SO/clinica-so"
+PROJECT_URL="digite o comando pwd no diretorio do projecto e copie o resultado aqui"
+
