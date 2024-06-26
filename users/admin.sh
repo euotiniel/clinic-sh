@@ -250,6 +250,7 @@ function logs {
         *)
             echo "Opção inválida. Por favor, escolha novamente."
             ;;	
+            esac
             }
 
 clear
