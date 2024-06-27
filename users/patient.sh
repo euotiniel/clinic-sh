@@ -2,26 +2,29 @@
 
 source ../config.sh
 
-# Sets
-
 database_dir="$PROJECT_URL/database"
+
+# Paciente
 
 patients_consulta_db="$database_dir/patients_consulta_marc.txt"
 
-patients_consulta_historic="$database_dir/historic/patients_consulta_historic.txt"
-
 patients_exame_db="$database_dir/patients_exame_marc.txt"
+
+patients_consulta_historic="$database_dir/historic/patients_consulta_historic.txt"
 
 patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
+# Doctor
+
 consultations_done="$database_dir/consultations_done.txt"
 
-
-exames_done="$database_dir/exames_done.txt"
+exams_done="$database_dir/exams_done.txt"
 
 doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
 
-doctor_exame_historic="$database_dir/historic/doctor_exame_historic_doctor.txt"
+doctor_exame_historic="$database_dir/historic/doctor_exame_historic.txt"
+
+# Sets
 
 if [ -d "$database_dir/historic" ]; then
     echo ""
@@ -171,7 +174,7 @@ function makeMarking {
         paid=true
     fi
 
-    file="$database_dir/patients_consulta_marc.txt"
+    file="$patients_consulta_db"
     id=$(wc -l <"$file")
     id=$((id + 1))
 
@@ -202,7 +205,7 @@ function consultMarking {
     echo -e "CONSULTAR MARCACOES"
     echo ""
 
-    file="$database_dir/patients_consulta_marc.txt"
+    file="$patients_consulta_db"
 
     if [ ! -f "$file" ] || [ ! -s "$file" ]; then
         echo -e "Lista de marcacoes vazia."
@@ -259,7 +262,7 @@ function scheduleExams {
     read search_id
 
 
-    file="$database_dir/consultations_done.txt"
+    file="$consultations_done"
 
     found=false
 
@@ -404,7 +407,7 @@ function scheduleExams {
         subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
 
         # Salvar os dados do exame no arquivo
-        file="$database_dir/patients_exame_marc.txt"
+        file="$patients_exame_db"
 
         id=$(wc -l <"$file")
         id=$((id + 1))
@@ -437,7 +440,7 @@ function checkExams {
     echo ""
 
     # Verifica se o arquivo existe
-    file="$database_dir/patients_exame_marc.txt"
+    file="$patients_exame_db"
 
     if [ ! -s "$file" ]; then
         echo -e "Nenhuma marcao de exame."
@@ -466,7 +469,7 @@ function checkExams {
             echo "Dia da Consulta: $consultationDay"
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
-            echo "Pago: " $paid
+            echo "Pago: $paid"
             echo "-------------------"
         fi
     done <"$file"
@@ -611,7 +614,7 @@ function subFunctionScheduleExam {
     local status="$7"
     local paid="$8"
 
-    file="$database_dir/patients_exame_marc.txt"
+    file="$patients_exame_db"
 
     id=$(wc -l <"$file")
 
