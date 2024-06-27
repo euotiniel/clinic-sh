@@ -1,2 +1,1 @@
-1;fabiana;F;09-87-6765;767676760;87-87-8787;Dermatologia;Não grave;true
-2;fabiana;F;09-87-6765;767676760;87-87-8787;Dermatologia;Não grave;true
+1;abel;F;12-34-5678;123456789;12-34-5678;Dermatologia;Não grave

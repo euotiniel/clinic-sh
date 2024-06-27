@@ -1,5 +1,30 @@
 #!/bin/bash
 
+source ../config.sh
+
+database_dir="$PROJECT_URL/database"
+
+# Paciente
+
+patients_consulta_db="$database_dir/patients_consulta_marc.txt"
+
+patients_exame_db="$database_dir/patients_exame_marc.txt"
+
+patients_consulta_historic="$database_dir/historic/patients_consulta_historic.txt"
+
+patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
+
+# Doctor
+
+consultations_done="$database_dir/consultations_done.txt"
+
+exams_done="$database_dir/exams_done.txt"
+
+doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
+
+doctor_exame_historic="$database_dir/historic/doctor_exame_historic.txt"
+
+
 
 function myqueries {
 	clear
@@ -89,7 +114,6 @@ function carryconsultations {
 
             subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
 
-            # Histórico
             if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$nota" >>"$consultations_done"; then
                 echo ""
             else

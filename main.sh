@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./config.sh
+source ../config.sh
 
 database_dir="$PROJECT_URL/database"
 
