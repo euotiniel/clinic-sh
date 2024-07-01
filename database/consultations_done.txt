@@ -1,5 +1,0 @@
-1;Sabaoth Miguel;M;12-34-5678;123456789;12-34-5678;Fisioterapia;Não grave;true;
-2;DD;F;12-34-5678;123456789;12-34-5678;Ginecologia;Não grave;true;
-3;DDD;F;12-34-5678;123456789;12-34-5678;Fisioterapia;Grave;false;dd
-4;dd;M;12-34-5678;1234567890;12-34-5678;Fisioterapia;Não grave;true;ff
-5;MM;F;12-34-5678;123456789;12-34-5678;Fisioterapia;Não grave;true;hhh

@@ -86,53 +86,120 @@ function carryConsultations {
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
-    echo -e "Id da consulta: "
+    
+    while true; do
+        echo -e "Id da consulta: "
+        read search_id
+
+        echo -e "Nota do paciente: "
+        read nota
+        
+        file="$database_dir/patients_consulta_marc.txt"
+        found=false
+
+        while IFS=';' read -r id name gender birth phone consultationDay area status paid old_nota; do
+            if [ "$id" == "$search_id" ]; then
+                echo "Id: $id"
+                echo "Nome: $name"
+                echo "Gênero: $gender"
+                echo "Data de Nascimento: $birth"
+                echo "Telefone: $phone"
+                echo "Dia da Consulta: $consultationDay"
+                echo "Area de consulta: $area"
+                echo "Estado do paciente: $status"
+                echo "Pago: $paid"
+                echo "Nota: $nota"
+                echo "-------------------"
+                found=true
+
+                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
+
+                if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$consultations_done"; then
+                    echo ""
+                else
+                    echo ""
+                fi
+
+                sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
+                break
+            fi
+        done <"$file"
+
+       if [ "$found" = true ]; then
+            echo ""
+            while true; do
+                read -p "Digite 1 para voltar: " caso
+                if [ "$caso" == "1" ]; then
+                    ./doctor.sh
+                    exit
+                fi
+            done
+        else
+
+			echo ""
+			echo "----------------------------"
+            echo -e "ID do usuário não encontrado."
+            while true; do
+				echo "-------------------"
+                echo "Escolha uma opção:"
+                echo "1. Tentar novamente"
+                echo "2. Voltar"
+                read caso
+				clear
+
+                if [ "$caso" == "1" ]; then
+                    break
+                elif [ "$caso" == "2" ]; then
+                    ./doctor.sh
+                    exit
+                else
+                    echo "Opção inválida, tente novamente."
+                fi
+            done
+			clear
+        fi
+    done
+}
+
+function checkQueryResults {
+	clear
+    echo ""
+    echo -e "RESULTADOS DE CONSULTA"
+    echo ""
+    echo -e "Digite os dados do paciente:"
+    echo ""
+	echo -e "Id da consulta: "
     read search_id
 
-	echo -e "Nota do paciente: "
-    read nota
-    file="$database_dir/patients_consulta_marc.txt"
-
-    found=false
-
-    echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid old_nota; do
-        if [ "$id" == "$search_id" ]; then
-            echo "Id: $id"
-            echo "Nome: $name"
-            echo "Gênero: $gender"
-            echo "Data de Nascimento: $birth"
-            echo "Telefone: $phone"
-            echo "Dia da Consulta: $consultationDay"
-            echo "Area de consulta: $area"
-            echo "Estado do paciente: $status"
-            echo "Pago: $paid"
-            echo "Nota: $nota"
-            echo "-------------------"
-            found=true
-
-
-            # Debug: Verifique se a variável 'nota' foi lida corretamente
-            #echo "Nota lida: $nota"
-
-            # Passe a variável nota corretamente para a subfunção
-            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
-
-            # Histórico
-            if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$consultations_done"; then
-                echo ""
-            else
-                echo ""
+	  file="$database_dir/consultations_done.txt"
+      found=false
+	if [ -s "$file" ]; then
+        while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
+            if [ "$id" == "$search_id" ]; then
+                echo "Id: $id"
+                echo "Nome: $name"
+                echo "Gênero: $gender"
+                echo "Data de Nascimento: $birth"
+                echo "Telefone: $phone"
+                echo "Dia da Consulta: $consultationDay"
+                echo "Area de consulta: $area"
+                echo "Estado do paciente: $status"
+                echo "Pago: $paid"
+                echo "Nota: $nota"
+                echo "-------------------"
+                found=true
             fi
+        done <"$file"
 
-            # Remover linha do arquivo
-            sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
-
-            break  # Sair do loop após encontrar o registro
+		 if ! $found; then
+            echo -e "Nenhuma marcação de exame encontrada para o ID informado."
         fi
-    done <"$file"
+    else
+        echo -e "Nenhuma marcação de exame encontrada no arquivo."
+    fi
 
     echo ""
+    echo -e "1. Voltar"
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -140,9 +207,14 @@ function carryConsultations {
         if [ "$caso" == "1" ]; then
             ./doctor.sh
             break
+        else
+            echo "Opção inválida, tente novamente."
         fi
     done
+    
+
 }
+
 function myExams {
 	clear
     echo ""
@@ -171,7 +243,7 @@ function myExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status nota; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -181,6 +253,7 @@ function myExams {
             echo "Dia da Consulta: $consultationDay"
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
+			#echo "$nota"
             echo "-------------------"
         fi
     done <"$file"
@@ -377,7 +450,7 @@ case $option in
 	carryConsultations
 	;;
 3)	
-	checkqueryresults
+	checkQueryResults
 	;;
 4)
 	myExams 
