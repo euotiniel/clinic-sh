@@ -2,18 +2,20 @@
 
 source ../config.sh
 
-# Sets
-
 database_dir="$PROJECT_URL/database"
+
+# Paciente
 
 patients_consulta_db="$database_dir/patients_consulta_marc.txt"
 
-patients_consulta_historic="$database_dir/historic/patients_consulta_historic.txt"
-
 patients_exame_db="$database_dir/patients_exame_marc.txt"
+
+patients_consulta_historic="$database_dir/historic/patients_consulta_historic.txt"
 
 patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
+# Doctor
+ 
 consultations_done="$database_dir/consultations_done.txt"
 
 exams_done="$database_dir/exames_done.txt"
@@ -160,6 +162,7 @@ function carryConsultations {
         fi
     done
 }
+
 
 function checkQueryResults {
 	clear

@@ -99,34 +99,76 @@ function makeMarking {
 
     while true; do
         read -p "Data de nascimento (ddmmaaaa): " birth
-        if [[ ! "$birth" =~ ^[0-9]{8}$ ]]; then
+        if [[ ! "$birth" =~ ^([0-9]{2})([0-9]{2})([0-9]{4})$ ]]; then
             echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
         else
-            birth_formatted=$(echo "$birth" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
-            echo "$birth_formatted"
-            birth=$birth_formatted
-            break
+            day="${birth:0:2}"
+            month="${birth:2:2}"
+            year="${birth:4:4}"
+
+            # setar os dados como int
+
+            ((day = 10#$day))
+            ((month = 10#$month))
+            ((year = 10#$year))
+
+            if ((day < 1 || day > 31)); then
+                echo "Dia inválido. Deve estar entre 01 e 31."
+            elif ((month < 1 || month > 12)); then
+                echo "Mês inválido. Deve estar entre 01 e 12."
+            elif ((year < 1 || year > 2024)); then
+                echo "Ano inválido. Deve estar entre 0001 e 2024."
+            else
+                birth_formatted="${day}-${month}-${year}"
+                echo "$birth_formatted"
+                birth=$birth_formatted
+                break
+            fi
         fi
     done
 
     while true; do
         read -p "Telefone: " phone
         if [[ ! "$phone" =~ ^[0-9]{9,13}$ ]]; then
-            echo "Telefone inválido. Deve conter entre 9 e 13 (+244) dígitos numéricos."
+            echo "Telefone inválido. Deve conter entre 9 e 13 dígitos numéricos."
         else
             break
         fi
     done
 
     while true; do
-        read -p "Dia da consulta (ddmmaaaa): " consultationDay
-        if [[ ! "$consultationDay" =~ ^[0-9]{8}$ ]]; then
+        read -p "Data da consulta (ddmmaaaa): " consultationDay
+        if [[ ! "$consultationDay" =~ ^([0-9]{2})([0-9]{2})([0-9]{4})$ ]]; then
             echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
         else
-            formatted=$(echo "$consultationDay" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
-            echo "$formatted"
-            consultationDay=$formatted
-            break
+            day="${consultationDay:0:2}"
+            month="${consultationDay:2:2}"
+            year="${consultationDay:4:4}"
+
+            # Convertendo para números inteiros
+            ((day = 10#$day))
+            ((month = 10#$month))
+            ((year = 10#$year))
+
+            current_month=$(date +%m)
+            current_year=$(date +%Y)
+
+            if ((day < 1 || day > 31)); then
+                echo "Dia inválido. Deve estar entre 01 e 31."
+            elif ((month < 1 || month > 12)); then
+                echo "Mês inválido. Deve estar entre 01 e 12."
+            elif ((year < 1 || year > 2024)); then
+                echo "Ano inválido. Deve estar entre 0001 e 2024."
+            elif ((year < current_year)); then
+                echo "Ano da consulta não pode ser anterior ao ano atual (${current_year})."
+            elif ((year == current_year && month < current_month)); then
+                echo "Mês da consulta não pode ser anterior ao mês atual (${current_month})."
+            else
+                formatted="${day}-${month}-${year}"
+                echo "$formatted"
+                consultationDay=$formatted
+                break
+            fi
         fi
     done
 
@@ -185,7 +227,6 @@ function makeMarking {
 
     echo ""
 
-
     while true; do
         read -p "Digite 1 para voltar: " caso
 
@@ -237,7 +278,6 @@ function consultMarking {
 
     echo ""
 
-
     while true; do
         read -p "Digite 1 para voltar: " caso
 
@@ -257,7 +297,6 @@ function scheduleExams {
     echo ""
     echo -e "Id da consulta: "
     read search_id
-
 
     file="$consultations_done"
 
@@ -295,7 +334,7 @@ function scheduleExams {
                 echo ""
             fi
 
-            break 
+            break
         fi
     done <"$file"
 
@@ -331,13 +370,31 @@ function scheduleExams {
 
         while true; do
             read -p "Data de nascimento (ddmmaaaa): " birth
-            if [[ ! "$birth" =~ ^[0-9]{8}$ ]]; then
+            if [[ ! "$birth" =~ ^([0-9]{2})([0-9]{2})([0-9]{4})$ ]]; then
                 echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
             else
-                birth_formatted=$(echo "$birth" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
-                echo "$birth_formatted"
-                birth=$birth_formatted
-                break
+                day="${birth:0:2}"
+                month="${birth:2:2}"
+                year="${birth:4:4}"
+
+                # setar os dados como int
+
+                ((day = 10#$day))
+                ((month = 10#$month))
+                ((year = 10#$year))
+
+                if ((day < 1 || day > 31)); then
+                    echo "Dia inválido. Deve estar entre 01 e 31."
+                elif ((month < 1 || month > 12)); then
+                    echo "Mês inválido. Deve estar entre 01 e 12."
+                elif ((year < 1 || year > 2024)); then
+                    echo "Ano inválido. Deve estar entre 0001 e 2024."
+                else
+                    birth_formatted="${day}-${month}-${year}"
+                    echo "$birth_formatted"
+                    birth=$birth_formatted
+                    break
+                fi
             fi
         done
 
@@ -351,14 +408,38 @@ function scheduleExams {
         done
 
         while true; do
-            read -p "Dia da consulta (ddmmaaaa): " consultationDay
-            if [[ ! "$consultationDay" =~ ^[0-9]{8}$ ]]; then
+            read -p "Data da consulta (ddmmaaaa): " consultationDay
+            if [[ ! "$consultationDay" =~ ^([0-9]{2})([0-9]{2})([0-9]{4})$ ]]; then
                 echo "Formato inválido. Use o formato ddmmaaaa (8 dígitos)."
             else
-                formatted=$(echo "$consultationDay" | sed 's/\(..\)\(..\)\(....\)/\1-\2-\3/')
-                echo "$formatted"
-                consultationDay=$formatted
-                break
+                day="${consultationDay:0:2}"
+                month="${consultationDay:2:2}"
+                year="${consultationDay:4:4}"
+
+                # Convertendo para números inteiros
+                ((day = 10#$day))
+                ((month = 10#$month))
+                ((year = 10#$year))
+
+                current_month=$(date +%m)
+                current_year=$(date +%Y)
+
+                if ((day < 1 || day > 31)); then
+                    echo "Dia inválido. Deve estar entre 01 e 31."
+                elif ((month < 1 || month > 12)); then
+                    echo "Mês inválido. Deve estar entre 01 e 12."
+                elif ((year < 1 || year > 2024)); then
+                    echo "Ano inválido. Deve estar entre 0001 e 2024."
+                elif ((year < current_year)); then
+                    echo "Ano da consulta não pode ser anterior ao ano atual (${current_year})."
+                elif ((year == current_year && month < current_month)); then
+                    echo "Mês da consulta não pode ser anterior ao mês atual (${current_month})."
+                else
+                    formatted="${day}-${month}-${year}"
+                    echo "$formatted"
+                    consultationDay=$formatted
+                    break
+                fi
             fi
         done
 
@@ -432,7 +513,6 @@ function scheduleExams {
         fi
     done
 }
-
 
 function checkExams {
     clear
@@ -527,14 +607,13 @@ function noPaymentMarking {
             echo "-------------------"
             found=true
         fi
-    done < "$file"
+    done <"$file"
 
     if ! $found; then
         echo "Nenhum pagamento em atraso encontrado."
     fi
 
     echo ""
-
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -569,7 +648,7 @@ function noPaymentExames {
     #         fi
     #     done
     # fi
-    
+
     found=false
 
     while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
@@ -586,14 +665,13 @@ function noPaymentExames {
             echo "-------------------"
             found=true
         fi
-    done < "$file"
+    done <"$file"
 
     if ! $found; then
         echo "Nenhum pagamento em atraso encontrado."
     fi
 
     echo ""
-
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -695,9 +773,8 @@ function payMarking {
     done
 }
 
-
 function payExams {
-        echo ""
+    echo ""
     echo "PAGAMENTO DO EXAME"
     echo "----------------------"
     echo ""
