@@ -1,2 +1,1 @@
-1;otoniel;M;12-12-1212;000000000;00-00-0000;Dermatologia;Não grave;true
-2;otoniel;M;12-12-1212;000000000;00-00-0000;Dermatologia;Não grave;true
+

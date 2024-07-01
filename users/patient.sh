@@ -64,9 +64,6 @@ if [ ! -f "$consultations_done" ]; then
     touch "$consultations_done"
 fi
 
-if [ ! -f "$exames_done" ]; then
-    touch "$exames_done"
-fi
 
 # Functions
 
@@ -326,7 +323,9 @@ function scheduleExams {
                 paid=true
             fi
 
-            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
+            nota=""
+
+            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
             # Histórico
             if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$patients_consulta_historic"; then
@@ -485,7 +484,9 @@ function scheduleExams {
             paid=true
         fi
 
-        subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid"
+        nota=""
+
+        subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "nota"
 
         # Salvar os dados do exame no arquivo
         file="$patients_exame_db"
@@ -698,7 +699,9 @@ function subFunctionScheduleExam {
 
     id=$((id + 1))
 
-    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$file"; then
+    nota=""
+
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
         echo ""
         echo "Exame marcado com sucesso!"
     else
