@@ -1,1 +1,4 @@
- 
+1;otoniel;M;11-05-2005;929292929;12-12-1212;Fisioterapia;Não grave;true
+2;111;M;10101010;929392384;12-34-5678;Fisioterapia;Não grave;true
+3;Otoniel Emanuel;M;11052005;929392384;12072024;Fisioterapia;Não grave;true
+4;Fabiana;M;11-5-2005;989898923;11-7-2024;Fisioterapia;Grave;false
