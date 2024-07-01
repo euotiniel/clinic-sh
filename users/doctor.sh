@@ -15,7 +15,7 @@ patients_consulta_historic="$database_dir/historic/patients_consulta_historic.tx
 patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
 # Doctor
-
+ 
 consultations_done="$database_dir/consultations_done.txt"
 
 exams_done="$database_dir/exams_done.txt"
