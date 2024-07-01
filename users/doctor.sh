@@ -138,11 +138,11 @@ function carryConsultations {
             done
         else
 
+			echo "---------------------------"
 			echo ""
-			echo "----------------------------"
             echo -e "ID do usuário não encontrado."
             while true; do
-				echo "-------------------"
+				echo ""
                 echo "Escolha uma opção:"
                 echo "1. Tentar novamente"
                 echo "2. Voltar"
@@ -417,14 +417,35 @@ function subFunctionScheduleExam {
         echo "Ups! Erro ao salvar. Verifique as permissões ou tente novamente."
     fi
 }
+
+if command -v finger &>/dev/null; then
+    echo " "
+else
+    echo "Instalando o pacote 'finger'..."
+    sudo apt update &> /dev/null
+    
+    sudo apt install finger -y &> /dev/null
+    
+    if [ $? -eq 0 ]; then
+        echo "Finger instalado com sucesso!"
+    else
+        echo "Houve um problema ao instalar o comando 'finger'."
+        exit 1  
+    fi
+fi
+
+# Main
+
 name=$(whoami)
 
 clear
 echo "MENU DOCTOR"
-echo "------------"
+echo "------------
+"
 usuario=$(whoami)
 nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
 echo "Bem vindo/a $nome"
+
 echo " 
 1 - Minhas Consultas
 2 - Realizar consultas
