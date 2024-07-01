@@ -570,26 +570,26 @@ function checkExams {
 function noPaymentMarking {
     clear
     echo ""
-    echo -e "Consultas com Pagamento em Atraso"
+    echo -e "CONSULTAS COM PAGAMENTOS EM ATRASO"
     echo ""
 
-    file="$consultations_done"
+    file="$PROJECT_URL/database/consultations_done.txt"
 
-    # if [ ! -s "$file" ]; then
-    #     echo -e "Nenhuma marcação encontrada."
-    #     echo ""
-    #     echo -e "1. Voltar"
-    #     echo ""
+    if [ ! -s "$file" ]; then
+        echo -e "Nenhuma marcação encontrada."
+        echo ""
+        echo -e "1. Voltar"
+        echo ""
 
-    #     while true; do
-    #         read -p "Digite 1 para voltar: " caso
+        while true; do
+            read -p "Digite 1 para voltar: " caso
 
-    #         if [ "$caso" == "1" ]; then
-    #             ./patient.sh
-    #             return
-    #         fi
-    #     done
-    # fi
+            if [ "$caso" == "1" ]; then
+                ./patient.sh
+                return
+            fi
+        done
+    fi
 
     found=false
 
@@ -628,26 +628,26 @@ function noPaymentMarking {
 function noPaymentExames {
     clear
     echo ""
-    echo -e "Exames com Pagamento em Atraso"
+    echo -e "EXAMES COM PAGAMENTO EM ATRASO"
     echo ""
 
     file="$exames_done"
 
-    # if [ ! -s "$file" ]; then
-    #     echo -e "Nenhuma marcação encontrada."
-    #     echo ""
-    #     echo -e "1. Voltar"
-    #     echo ""
+    if [ ! -s "$file" ]; then
+        echo -e "Nenhuma marcação encontrada."
+        echo ""
+        echo -e "1. Voltar"
+        echo ""
 
-    #     while true; do
-    #         read -p "Digite 1 para voltar: " caso
+        while true; do
+            read -p "Digite 1 para voltar: " caso
 
-    #         if [ "$caso" == "1" ]; then
-    #             ./patient.sh
-    #             return
-    #         fi
-    #     done
-    # fi
+            if [ "$caso" == "1" ]; then
+                ./patient.sh
+                return
+            fi
+        done
+    fi
 
     found=false
 
@@ -828,7 +828,7 @@ function payExams {
             ;;
         *)
             echo ""
-            echo "Opção inválida. Por favor, selecione 1 ou 2."
+            echo "Opção inválida. Por favor, selecione 1 ou 2. rrrrrrrrrrrrrrrrrrrrrrrrrrrr"
             echo ""
             ;;
         esac
@@ -838,9 +838,16 @@ function payExams {
 
 # Main
 
+name=$(whoami)
+
 clear
 echo "MENU PACIENTE"
-echo "--------------"
+echo "--------------
+"
+
+usuario=$(whoami)
+nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
+echo "Bem vindo/a $nome"
 
 echo " 
 1 - Fazer marcacao
