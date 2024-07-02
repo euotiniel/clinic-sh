@@ -18,7 +18,7 @@ patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
  
 consultations_done="$database_dir/consultations_done.txt"
 
-exams_done="$database_dir/exames_done.txt"
+exams_done="$database_dir/exams_done.txt"
 
 doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
 
@@ -117,12 +117,12 @@ function carryConsultations {
                 subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
 
                 if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$consultations_done"; then
-                    echo ""
+                    echo "Consulta realizada e registrada com sucesso."
                 else
                     echo ""
                 fi
 
-                sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
+                sed -i "${search_id}d" "$database_dir/patients_consulta_marc.txt"
                 break
             fi
         done <"$file"
@@ -246,21 +246,22 @@ function myExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status nota; do
-        if [[ -n "${id// /}" ]]; then
-            echo "Id: $id"
-            echo "Nome: $name"
-            echo "Genero: $gender"
-            echo "Data de Nascimento: $birth"
-            echo "Telefone: $phone"
-            echo "Dia da Consulta: $consultationDay"
-            echo "Area de consulta: $area"
-            echo "Estado do paciente: $status"
-			#echo "$nota"
-            echo "-------------------"
-        fi
-    done <"$file"
-
+   while IFS=';' read -r id name gender birth phone consultationDay area status nota paid ; do
+            if [[ -n "${id// /}" ]]; then
+                echo "Id: $id"
+                echo "Nome: $name"
+                echo "Gênero: $gender"
+                echo "Data de Nascimento: $birth"
+                echo "Telefone: $phone"
+                echo "Dia da Consulta: $consultationDay"
+                echo "Area de consulta: $area"
+                echo "Estado do paciente: $status"
+                echo "Pagamento: $paid"
+                echo "Nota: $nota"
+                echo "-------------------"
+                found=true
+            fi
+        done <"$file"
     echo ""
     echo -e "1. Voltar"
     echo ""
@@ -276,62 +277,84 @@ function myExams {
 }
 
 function performExams {
-	clear
+    clear
     echo ""
     echo -e "REALIZAR EXAMES"
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
-    echo -e "Id da consulta: "
-    read search_id
-
-    file="$PROJECT_URL/database/patients_exame_marc.txt"
-
-    found=false
-	
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
-        if [ "$id" == "$search_id" ]; then
-            echo "Id: $id"
-            echo "Nome: $name"
-            echo "Gênero: $gender"
-            echo "Data de Nascimento: $birth"
-            echo "Telefone: $phone"
-            echo "Dia da Consulta: $consultationDay"
-            echo "Area de consulta: $area"
-            echo "Estado do paciente: $status"
-			echo "Nota: $nota"
-            echo "-------------------"
-            found=true
-
-            subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
-
-            # Histórico
-            if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$nota" >>"$exams_done"; then
-                echo ""
-            else
-                echo ""
-            fi
-
-            # Remover linha do arquivo
-            sed -i "${search_id}s/.*/ /" "$PROJECT_URL/database/patients_consulta_marc.txt"
-
-            break  # Sair do loop após encontrar o registro
-        fi
-	done <"$file"
-
-	echo ""
-    echo -e "1. Voltar"
-    echo ""
 
     while true; do
-        read -p "Digite 1 para voltar: " caso
+        echo -e "Id da consulta: "
+        read search_id
 
-        if [ "$caso" == "1" ]; then
-            ./doctor.sh
-            break
+        file="$database_dir/patients_exame_marc.txt"
+        found=false
+
+        while IFS=';' read -r id name gender birth phone consultationDay area status nota paid; do
+            if [ "$id" == "$search_id" ]; then
+                echo "Id: $id"
+                echo "Nome: $name"
+                echo "Gênero: $gender"
+                echo "Data de Nascimento: $birth"
+                echo "Telefone: $phone"
+                echo "Dia da Consulta: $consultationDay"
+                echo "Área de consulta: $area"
+                echo "Estado do paciente: $status"
+                echo "Pago: $paid"
+                echo "Nota: $nota"
+                echo "-------------------"
+                found=true
+
+                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
+
+                if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$exams_done"; then
+                    echo "Exame realizado e registrado com sucesso."
+                else
+                    echo "Erro ao registrar o exame."
+                fi
+
+                # Remover a linha correspondente ao ID da consulta
+                 # sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
+                 sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
+                 sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
+            
+            fi  
+        done <"$file"
+
+        if [ "$found" = true ]; then
+            echo ""
+            while true; do
+                read -p "Digite 1 para voltar: " caso
+                if [ "$caso" == "1" ]; then
+                    ./doctor.sh
+                    exit
+                fi
+            done
+        else
+            echo "---------------------------"
+            echo ""
+            echo -e "ID do usuário não encontrado."
+            while true; do
+                echo ""
+                echo "Escolha uma opção:"
+                echo "1. Tentar novamente"
+                echo "2. Voltar"
+                read caso
+                clear
+
+                if [ "$caso" == "1" ]; then
+                    break
+                elif [ "$caso" == "2" ]; then
+                    ./doctor.sh
+                    exit
+                else
+                    echo "Opção inválida, tente novamente."
+                fi
+            done
+            clear
         fi
     done
-
 }
 
 function checkExamResults {
@@ -411,7 +434,7 @@ function subFunctionScheduleExam {
 
     if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$nota" >>"$file"; then
         echo ""
-        echo "Consulta realizada com sucesso!"
+        echo "----------------------------"
     else
         echo ""
         echo "Ups! Erro ao salvar. Verifique as permissões ou tente novamente."

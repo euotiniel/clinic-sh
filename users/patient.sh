@@ -213,11 +213,13 @@ function makeMarking {
         paid=true
     fi
 
+    nota=""
+
     file="$patients_consulta_db"
     id=$(wc -l <"$file")
     id=$((id + 1))
 
-    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
         echo ""
         echo "MARCACAO FEITA COM SUCESSO!"
     else
@@ -261,7 +263,7 @@ function consultMarking {
 
     echo -e "Lista de Marcacoes:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -302,7 +304,7 @@ function scheduleExams {
 
     found=false
 
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [ "$id" == "$search_id" ]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -313,6 +315,7 @@ function scheduleExams {
             echo "Área de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo ""
             echo "-------------------"
             found=true
 
@@ -323,18 +326,18 @@ function scheduleExams {
                 paid=true
             fi
 
-            nota=""
+            # break 
 
             subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
             # Histórico
-            if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$patients_consulta_historic"; then
+            if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$patients_consulta_historic"; then
                 echo ""
             else
                 echo ""
             fi
 
-            break
+            # break
         fi
     done <"$file"
 
@@ -486,7 +489,7 @@ function scheduleExams {
 
         nota=""
 
-        subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "nota"
+        subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
         # Salvar os dados do exame no arquivo
         file="$patients_exame_db"
@@ -494,7 +497,7 @@ function scheduleExams {
         id=$(wc -l <"$file")
         id=$((id + 1))
 
-        if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid" >>"$file"; then
+        if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
             echo ""
         else
             echo ""
@@ -540,7 +543,7 @@ function checkExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -551,6 +554,7 @@ function checkExams {
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo ""
             echo "-------------------"
         fi
     done <"$file"
@@ -573,7 +577,7 @@ function noPaymentMarking {
     echo -e "CONSULTAS COM PAGAMENTOS EM ATRASO"
     echo ""
 
-    file="$PROJECT_URL/database/consultations_done.txt"
+    file="$consultations_done"
 
     if [ ! -s "$file" ]; then
         echo -e "Nenhuma marcação encontrada."
@@ -593,7 +597,7 @@ function noPaymentMarking {
 
     found=false
 
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ "$paid" == "false" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -604,6 +608,7 @@ function noPaymentMarking {
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo "Nota: $nota"
             echo "-------------------"
             found=true
         fi
@@ -651,7 +656,7 @@ function noPaymentExames {
 
     found=false
 
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ "$paid" == "false" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -662,6 +667,7 @@ function noPaymentExames {
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo "Nota: $nota"
             echo "-------------------"
             found=true
         fi
@@ -692,6 +698,7 @@ function subFunctionScheduleExam {
     local area="$6"
     local status="$7"
     local paid="$8"
+    local nota="$9"
 
     file="$patients_exame_db"
 

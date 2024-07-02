@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # Definindo o diretório de logs
 logs="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/logs"
 
