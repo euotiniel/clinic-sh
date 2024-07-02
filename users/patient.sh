@@ -2,6 +2,21 @@
 
 source ../config.sh
 
+# LOGS
+
+# Definindo o diretório de logs
+logs="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/logs"
+
+# Função para registrar informações no log
+log_info() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [INFO] $1" >>"$logs/system.log"
+}
+
+# Função para registrar erros no log
+log_error() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [ERROR] $1" >>"$logs/error.log"
+}
+
 database_dir="$PROJECT_URL/database"
 
 # Paciente
@@ -63,7 +78,6 @@ fi
 if [ ! -f "$consultations_done" ]; then
     touch "$consultations_done"
 fi
-
 
 # Functions
 
@@ -222,9 +236,11 @@ function makeMarking {
     if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
         echo ""
         echo "MARCACAO FEITA COM SUCESSO!"
+        log_info "O usuário $usuario fez uma marcacao de consulta para o paciente $name"
     else
         echo ""
         echo "Erro ao salvar a marcação. Verifique as permissões ou tente novamente."
+        log_error "Erro ao fazer marcacao de consulta, usuario $usuario"
     fi
 
     echo ""
@@ -242,7 +258,7 @@ function makeMarking {
 function consultMarking {
     clear
     echo ""
-    echo -e "CONSULTAR MARCACOES"
+    echo -e "CONSULTAR MARCACOES DE CONSULTA"
     echo ""
 
     file="$patients_consulta_db"
@@ -277,6 +293,8 @@ function consultMarking {
             echo "-------------------"
         fi
     done <"$file"
+
+    log_info "O usuário $usuario acessou a lista de marcacoes para consultas"
 
     echo ""
 
@@ -326,20 +344,22 @@ function scheduleExams {
                 paid=true
             fi
 
-            # break 
+            # break
 
             subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
             # Histórico
             if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$patients_consulta_historic"; then
-                echo ""
+                log_info "O usuário $usuario salvou a marcacao de exame do paciente $name"
             else
-                echo ""
+                log_error "Erro ao fazer marcacao de exame, usuario $usuario"
             fi
 
             # break
         fi
     done <"$file"
+
+    log_info "O usuário $usuario fez uma marcacao de exame para o paciente $name"
 
     if ! $found; then
         echo "Nenhum registro encontrado."
@@ -499,9 +519,11 @@ function scheduleExams {
 
         if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
             echo ""
+            log_info "O usuário $usuario fez uma marcacao de exame para o paciente $name"
         else
             echo ""
             echo "Erro ao salvar a marcação de exame. Verifique as permissões ou tente novamente."
+            log_error "Erro ao fazer marcacao de exame, usuario $usuario"
         fi
     fi
 
@@ -560,6 +582,7 @@ function checkExams {
     done <"$file"
 
     echo ""
+    log_info "O usuário $usuario acessou a lista de marcacoes"
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -619,6 +642,7 @@ function noPaymentMarking {
     fi
 
     echo ""
+    log_info "O usuário $usuario acessou a lista de consultas nao pagas"
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -678,6 +702,7 @@ function noPaymentExames {
     fi
 
     echo ""
+    log_info "O usuário $usuario acessou a lista de examos nao pagos"
 
     while true; do
         read -p "Digite 1 para voltar: " caso
@@ -869,6 +894,8 @@ echo "
 echo "Escolha uma das opcoes: "
 
 echo ""
+
+log_info "O usuário $usuario acessou o menu do paciente"
 
 read option
 

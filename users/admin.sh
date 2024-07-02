@@ -12,9 +12,9 @@ log_info() {
 log_error() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] [ERROR] $1" >>"$logs/error.log"
 }
+
 # Funcoes
 
-usuario=$(whoami)
 function addDoctor {
     clear
     log_info "O usuário $usuario adicionou o Medico $opcao"
@@ -228,12 +228,32 @@ function logs {
         cd ..
         cd logs
         cat error.log
+        cd ..
+        cd users
+        while true; do
+            read -p "Digite 1 para voltar: " caso
+
+            if [ "$caso" == "1" ]; then
+                ./admin.sh
+                break
+            fi
+        done
         ;;
     2)
         clear
         cd ..
         cd logs
         cat system.log
+        cd ..
+        cd users
+        while true; do
+            read -p "Digite 1 para voltar: " caso
+
+            if [ "$caso" == "1" ]; then
+                ./admin.sh
+                break
+            fi
+        done
         ;;
     3)
         clear
@@ -251,23 +271,24 @@ function logs {
 }
 
 clear
-echo "------------------"
-echo "MENU ADMINISTRADOR"
+usuario=$(whoami)
+echo "MENU ADMINISTRADOR
+"
 echo "------------------"
 usuario=$(whoami)
 nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
 echo "Bem vindo/a $nome"
 echo " 
-1. Adicionar Medicos
-2. Eliminar Medicos
-3. Listar Medicos
-4. Adicionar Funcionarios
-5. Eliminar Funcionarios
-6. Listar Funcionarios
-7. Filias
-8. Limpeza do Sistema
-9. Logs
-10. Sair
+1 - Adicionar Medicos
+2 - Eliminar Medicos
+3 - Listar Medicos
+4 - Adicionar Funcionarios
+5 - Eliminar Funcionarios
+6 - Listar Funcionarios
+7 - Filias
+8 - Limpeza do Sistema
+9 - Logs
+10 - Sair
 "
 
 read option
