@@ -65,7 +65,6 @@ function listDoctor {
 function deleteDoctor {
 	clear
 	
-    echo "Qual Medico pretende deletar?"
     read opcao
     
    if getent passwd "$opcao" > /dev/null; then

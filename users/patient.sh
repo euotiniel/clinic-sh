@@ -404,7 +404,7 @@ function scheduleExams {
             echo ""
         else
             echo ""
-            echo "Erro ao salvar a marcação de exame. Verifique as permissões ou tente novamente."
+            echo "Erro ao salvar a marcação de exame. Verifique as permissões e tente novamente."
         fi
     fi
 
@@ -432,7 +432,7 @@ function checkExams {
     file="$PROJECT_URL/database/patients_exame_marc.txt"
 
     if [ ! -s "$file" ]; then
-        echo -e "Nenhuma marcao de exame."
+        echo -e "Nenhuma marcacao de exame."
         echo ""
         echo -e "1. Voltar"
         echo ""
@@ -506,6 +506,7 @@ function subFunctionScheduleExam {
 
 function payMarking {
     echo ""
+    echo "----------------------"
     echo "PAGAMENTO DA CONSULTA"
     echo "----------------------"
     echo ""
@@ -574,6 +575,7 @@ function payNowExams {
 # Main
 
 clear
+echo "--------------"
 echo "MENU PACIENTE"
 echo "--------------"
 
@@ -620,7 +622,7 @@ case $option in
     ./login.sh
     ;;
 *)
-    echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
+    echo "Opcao nao disponivel, por favor, escolha um dos numeros apresentados!"
     echo ""
     chmod a+x patient.sh
     ./patient.sh

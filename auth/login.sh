@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # Definindo o diretório de logs
 logs="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/logs"
 
@@ -55,11 +53,10 @@ else
     log_error "O usuário $opcao não existe"
 fi
 
-# Opções para tentar novamente ou sair
 echo -e "1. Tentar Novamente"
 echo -e "2. Sair"
 
-read -p "Escolha uma opção: " caso
+read -p "Escolha uma das opções: " caso
 
 if [ "$caso" == "1" ]; then
     ./login.sh
