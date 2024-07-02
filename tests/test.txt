@@ -1,5 +1,3 @@
-ywetgyuew
- 
 ewrerwe
 rerwe
 rwer
@@ -7,10 +5,7 @@ er
 wer
 wer
 ewr
-ewre
-
-
+1111111111111111111
 sed -i '1d' dados.txt
-
 sed -i '2s/.*/ /' dados.txt
-
+11111111111111111111111111
