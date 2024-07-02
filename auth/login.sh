@@ -20,6 +20,10 @@ echo ""
 # Solicitação do nome do usuário
 read -p "Insira o nome do usuário: " opcao
 
+# read -s -p "Insira a palavra-passe: " senha
+
+echo ""
+
 uid=$(getent passwd "$opcao" 2>/dev/null | cut -d: -f3)
 
 if [ -n "$uid" ]; then
