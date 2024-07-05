@@ -277,7 +277,7 @@ function folder {
 diretorio_pai="$(dirname "$PWD")"
 origem="$diretorio_pai/database"
 origem2="$diretorio_pai/logs"
-destino="/mnt/backup/Backup"
+destino="/mnt/Backup"
 
 log_info="$diretorio_pai/logs/backup_info.log"
 log_error="$diretorio_pai/logs/backup_error.log"
