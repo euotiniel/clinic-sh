@@ -250,6 +250,123 @@ function logs {
     esac
 }
 
+
+function folder {
+	
+
+diretorio_pai="$(dirname "$PWD")"
+origem="$diretorio_pai/database"
+origem2="$diretorio_pai/logs"
+destino="/mnt/backup/Backup"
+
+log_info="$diretorio_pai/logs/backup_info.log"
+log_error="$diretorio_pai/logs/backup_error.log"
+
+if [ ! -d "$destino" ]; then
+    mkdir -p "$destino"
+    if [ $? -ne 0 ]; then
+        echo "Erro ao criar o diretório de destino: $destino. Abortando."
+        exit 1
+    fi
+fi
+
+
+mkdir -p "$(dirname "$log_info")"
+mkdir -p "$(dirname "$log_error")"
+
+registrar_log() {
+    local tipo="$1"  # Tipo de log: "info" ou "error"
+    local mensagem="$2" 
+
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [$tipo] $mensagem" >> "$log_info"
+    if [ "$tipo" = "error" ]; then
+        echo "[$(date +'%Y-%m-%d %H:%M:%S')] [$tipo] $mensagem" >> "$log_error"
+    fi
+}
+
+registrar_log "info" "Iniciando cópia de $origem para $destino"
+
+
+sudo cp -r "$origem"/* "$destino" 2>> "$log_error"
+sudo cp -r "$origem2"/* "$destino" 2>> "$log_error"
+
+if [ $? -eq 0 ]; then
+    registrar_log "info" "Backup Efetuado com Sucesso."
+    echo "Backup Efetuado com Sucesso."
+else
+    registrar_log "error" "Erro ao copiar os arquivos."
+    echo "Erro ao copiar os arquivos."
+fi
+
+registrar_log "info" "Fim do processo de cópia."
+}
+
+function backup {
+
+	clear
+	echo "1. Fazer Backup"
+	echo "2. Historico"
+	echo "3. Voltar"
+        echo "4. Sair"
+	read -p "Escolha uma opção: " opcao
+	
+	
+	
+
+    case $opcao in
+    1)
+        folder
+        ;;
+    2)
+      	clear
+        cd ..
+        cd logs
+        cat backup_error.log
+        cat backup_info.log
+        reload
+        
+        ;;
+    3)
+        clear
+        ./admin.sh
+        ;;
+    4)
+        cd ..
+        cd auth
+        ./login.sh
+        ;;
+    *)
+        echo "Opção inválida. Por favor, escolha novamente."
+        ;;
+    esac
+
+}
+
+function reload {
+
+    echo "1. Voltar"
+    echo "2. Sair"
+    
+    read -p "Escolha uma opção: " opcao
+
+    case $opcao in
+    
+    1)
+        clear
+        ./admin.sh
+        ;;
+    2)
+        cd ..
+        cd auth
+        ./login.sh
+        ;;
+    *)
+        echo "Opção inválida. Por favor, escolha novamente."
+        ;;
+    esac
+
+}
+
 clear
 echo "------------------"
 echo "MENU ADMINISTRADOR"
@@ -267,7 +384,8 @@ echo "
 7. Filias
 8. Limpeza do Sistema
 9. Logs
-10. Sair
+10. Backup
+11. Sair
 "
 
 read option
@@ -310,11 +428,16 @@ case $option in
     logs
     ;;
 10)
+
+    backup
+    ;;
+11)
     cd ..
     cd auth
     chmod +x login.sh
     ./login.sh
     ;;
+    
 *)
     echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
     echo ""
