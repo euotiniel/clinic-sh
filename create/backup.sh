@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Variáveis de configuração
-DISPOSITIVO="/dev/sda"
+DISPOSITIVO="/dev/nvme0n1"
 TAMANHO_PARTICAO="100M"
 PONTO_DE_MONTAGEM="/mnt/backup"
 USUARIO_PROPRIETARIO="root"
