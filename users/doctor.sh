@@ -2,6 +2,21 @@
 
 source ../config.sh
 
+# LOGS
+
+# Definindo o diretório de logs
+logs="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/logs"
+
+# Função para registrar informações no log
+log_info() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [INFO] $1" >>"$logs/system.log"
+}
+
+# Função para registrar erros no log
+log_error() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [ERROR] $1" >>"$logs/error.log"
+}
+
 database_dir="$PROJECT_URL/database"
 
 # Paciente
