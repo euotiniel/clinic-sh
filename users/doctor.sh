@@ -29,8 +29,10 @@ patients_consulta_historic="$database_dir/historic/patients_consulta_historic.tx
 
 patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
+mortality="$database_dir/mortality.txt"
+
 # Doctor
- 
+
 consultations_done="$database_dir/consultations_done.txt"
 
 exams_done="$database_dir/exams_done.txt"
@@ -39,78 +41,76 @@ doctor_consulta_historic="$database_dir/historic/doctor_consulta_historic.txt"
 
 doctor_exame_historic="$database_dir/historic/doctor_exame_historic.txt"
 
-
-
 function myQueries {
-	clear
-	echo ""
-	echo -e "MINHAS CONSULTAS"
-	echo ""
+    clear
+    echo ""
+    echo -e "MINHAS CONSULTAS"
+    echo ""
 
-	file="$database_dir/patients_consulta_marc.txt"
+    file="$database_dir/patients_consulta_marc.txt"
 
-	if [ ! -f "$file" ] || [ ! -s "$file" ]; then
-		echo -e "Lista de marcacoes vazia."
-		echo ""
-		echo -e "1. Voltar"
-		echo ""
+    if [ ! -f "$file" ] || [ ! -s "$file" ]; then
+        echo -e "Lista de marcacoes vazia."
+        echo ""
+        echo -e "1. Voltar"
+        echo ""
 
-		while true; do
-			read -p "Digite 1 para voltar: " caso
+        while true; do
+            read -p "Digite 1 para voltar: " caso
 
-			if [ "$caso" == "1" ]; then
-				./doctor.sh
-				break
-			fi
-		done
-	fi
+            if [ "$caso" == "1" ]; then
+                ./doctor.sh
+                break
+            fi
+        done
+    fi
 
-	echo -e "Lista de Marcacoes:"
-	echo ""
-	while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
-		if [[ -n "${id// /}" ]]; then
-			echo "Id: $id"
-			echo "Nome: $name"
-			echo "Gênero: $gender"
-			echo "Data de Nascimento: $birth"
-			echo "Telefone: $phone"
-			echo "Dia da Consulta: $consultationDay"
-			echo "Area de consulta: $area"
-			echo "Estado do paciente: $status"
-			echo "Pago: $paid"
-			echo "-------------------"
-		fi
-	done <"$file"
+    echo -e "Lista de Marcacoes:"
+    echo ""
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid; do
+        if [[ -n "${id// /}" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Gênero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pago: $paid"
+            echo "-------------------"
+        fi
+    done <"$file"
 
-	echo ""
-	echo -e "1. Voltar"
-	echo ""
+    echo ""
+    echo -e "1. Voltar"
+    echo ""
 
-	while true; do
-		read -p "Digite 1 para voltar: " caso
+    while true; do
+        read -p "Digite 1 para voltar: " caso
 
-		if [ "$caso" == "1" ]; then
-			./doctor.sh
-			break
-		fi
-	done
+        if [ "$caso" == "1" ]; then
+            ./doctor.sh
+            break
+        fi
+    done
 }
 
 function carryConsultations {
-	clear
+    clear
     echo ""
     echo -e "REALIZAR CONSULTAS"
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
-    
+
     while true; do
         echo -e "Id da consulta: "
         read search_id
 
         echo -e "Nota do paciente: "
         read nota
-        
+
         file="$database_dir/patients_consulta_marc.txt"
         found=false
 
@@ -142,7 +142,7 @@ function carryConsultations {
             fi
         done <"$file"
 
-       if [ "$found" = true ]; then
+        if [ "$found" = true ]; then
             echo ""
             while true; do
                 read -p "Digite 1 para voltar: " caso
@@ -153,16 +153,16 @@ function carryConsultations {
             done
         else
 
-			echo "---------------------------"
-			echo ""
+            echo "---------------------------"
+            echo ""
             echo -e "ID do usuário não encontrado."
             while true; do
-				echo ""
+                echo ""
                 echo "Escolha uma opção:"
                 echo "1. Tentar novamente"
                 echo "2. Voltar"
                 read caso
-				clear
+                clear
 
                 if [ "$caso" == "1" ]; then
                     break
@@ -173,25 +173,24 @@ function carryConsultations {
                     echo "Opção inválida, tente novamente."
                 fi
             done
-			clear
+            clear
         fi
     done
 }
 
-
 function checkQueryResults {
-	clear
+    clear
     echo ""
     echo -e "RESULTADOS DE CONSULTA"
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
-	echo -e "Id da consulta: "
+    echo -e "Id da consulta: "
     read search_id
 
-	  file="$database_dir/consultations_done.txt"
-      found=false
-	if [ -s "$file" ]; then
+    file="$database_dir/consultations_done.txt"
+    found=false
+    if [ -s "$file" ]; then
         while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
             if [ "$id" == "$search_id" ]; then
                 echo "Id: $id"
@@ -209,7 +208,7 @@ function checkQueryResults {
             fi
         done <"$file"
 
-		 if ! $found; then
+        if ! $found; then
             echo -e "Nenhuma marcação de exame encontrada para o ID informado."
         fi
     else
@@ -229,12 +228,11 @@ function checkQueryResults {
             echo "Opção inválida, tente novamente."
         fi
     done
-    
 
 }
 
 function myExams {
-	clear
+    clear
     echo ""
     echo -e "Exames Marcados"
     echo ""
@@ -261,22 +259,22 @@ function myExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-   while IFS=';' read -r id name gender birth phone consultationDay area status nota paid ; do
-            if [[ -n "${id// /}" ]]; then
-                echo "Id: $id"
-                echo "Nome: $name"
-                echo "Gênero: $gender"
-                echo "Data de Nascimento: $birth"
-                echo "Telefone: $phone"
-                echo "Dia da Consulta: $consultationDay"
-                echo "Area de consulta: $area"
-                echo "Estado do paciente: $status"
-                echo "Pagamento: $paid"
-                echo "Nota: $nota"
-                echo "-------------------"
-                found=true
-            fi
-        done <"$file"
+    while IFS=';' read -r id name gender birth phone consultationDay area status nota paid; do
+        if [[ -n "${id// /}" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Gênero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pagamento: $paid"
+            echo "Nota: $nota"
+            echo "-------------------"
+            found=true
+        fi
+    done <"$file"
     echo ""
     echo -e "1. Voltar"
     echo ""
@@ -330,11 +328,11 @@ function performExams {
                 fi
 
                 # Remover a linha correspondente ao ID da consulta
-                 # sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
-                 sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
-                 sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
-            
-            fi  
+                # sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
+                sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
+                sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
+
+            fi
         done <"$file"
 
         if [ "$found" = true ]; then
@@ -374,59 +372,198 @@ function performExams {
 
 function checkExamResults {
 
-	clear
-	echo ""
-	echo -e "RESULTADOS"
-	echo ""
+    clear
+    echo ""
+    echo -e "RESULTADOS"
+    echo ""
 
-	file="$PROJECT_URL/database/exams_done.txt"
+    file="$PROJECT_URL/database/exams_done.txt"
 
-	if [ ! -f "$file" ] || [ ! -s "$file" ]; then
-		echo -e "Lista de resultado vazia."
-		echo ""
-		echo -e "1. Voltar"
-		echo ""
+    if [ ! -f "$file" ] || [ ! -s "$file" ]; then
+        echo -e "Lista de resultado vazia."
+        echo ""
+        echo -e "1. Voltar"
+        echo ""
 
-		while true; do
-			read -p "Digite 1 para voltar: " caso
+        while true; do
+            read -p "Digite 1 para voltar: " caso
 
-			if [ "$caso" == "1" ]; then
-				./doctor.sh
-				break
-			fi
-		done
-	fi
+            if [ "$caso" == "1" ]; then
+                ./doctor.sh
+                break
+            fi
+        done
+    fi
 
-	echo -e "Lista de Resultados:"
-	echo ""
-	while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
-		if [[ -n "${id// /}" ]]; then
-			echo "Id: $id"
-			echo "Nome: $name"
-			echo "Gênero: $gender"
-			echo "Data de Nascimento: $birth"
-			echo "Telefone: $phone"
-			echo "Dia da Consulta: $consultationDay"
-			echo "Area de consulta: $area"
-			echo "Estado do paciente: $status"
-			echo "Nota: $nota"
-			echo "-------------------"
-		fi
-	done <"$file"
+    echo -e "Lista de Resultados:"
+    echo ""
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
+        if [[ -n "${id// /}" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Gênero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Nota: $nota"
+            echo "-------------------"
+        fi
+    done <"$file"
 
-	echo ""
-	echo -e "1. Voltar"
-	echo ""
+    echo ""
+    echo -e "1. Voltar"
+    echo ""
 
-	while true; do
-		read -p "Digite 1 para voltar: " caso
+    while true; do
+        read -p "Digite 1 para voltar: " caso
 
-		if [ "$caso" == "1" ]; then
-			./doctor.sh
-			break
-		fi
-	done
+        if [ "$caso" == "1" ]; then
+            ./doctor.sh
+            break
+        fi
+    done
 }
+
+function setInvalid {
+    clear
+    echo ""
+    echo -e "MARCAR PACIENTE COMO MORTO"
+    echo ""
+    echo -e "Digite os dados do paciente:"
+    echo ""
+
+    while true; do
+        echo -e "Id da consulta: "
+        read search_id
+
+        file="$exams_done"
+        found=false
+
+        while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
+            if [ "$id" == "$search_id" ]; then
+                echo "Id: $id"
+                echo "Nome: $name"
+                echo "Gênero: $gender"
+                echo "Data de Nascimento: $birth"
+                echo "Telefone: $phone"
+                echo "Dia da Consulta: $consultationDay"
+                echo "Área de consulta: $area"
+                echo "Estado do paciente: $status"
+                echo "Pago: $paid"
+                echo "Nota: $nota"
+                echo "-------------------"
+                found=true
+
+                # subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
+
+                if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$mortality"; then
+                    echo "Morto marcado com sucesso."
+                else
+                    echo "Erro ao registrar o morto."
+                fi
+
+                # Remover a linha correspondente ao ID da consulta
+                # sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
+                sed -i "${search_id}d" "$exams_done"
+                sed -i "${search_id}d" "$exams_done"
+
+            fi
+        done <"$file"
+
+        if [ "$found" = !true ]; then
+            echo ""
+            while true; do
+                read -p "Digite 1 para voltar: " caso
+                if [ "$caso" == "1" ]; then
+                    ./doctor.sh
+                    exit
+                fi
+            done
+        else
+            echo "---------------------------"
+            echo ""
+            echo -e "ID do usuário não encontrado."
+            while true; do
+                echo ""
+                echo "Escolha uma opção:"
+                echo "1. Tentar novamente"
+                echo "2. Voltar"
+                read caso
+                clear
+
+                if [ "$caso" == "1" ]; then
+                    break
+                elif [ "$caso" == "2" ]; then
+                    ./doctor.sh
+                    exit
+                else
+                    echo "Opção inválida, tente novamente."
+                fi
+            done
+            clear
+        fi
+    done
+}
+
+function listMortality {
+    clear
+    echo ""
+    echo -e "LISTAR PACIENTES MORTOS"
+    echo ""
+
+    # Verifica se o arquivo existe
+    file="$mortality"
+
+    if [ ! -s "$file" ]; then
+        echo -e "Nenhum paciente morto."
+        echo ""
+        echo -e "1. Voltar"
+        echo ""
+
+        while true; do
+            read -p "Digite 1 para voltar: " caso
+
+            if [ "$caso" == "1" ]; then
+                ./doctor.sh
+                break
+            fi
+        done
+    fi
+
+    # Exibir as marcações existentes
+    echo ""
+    while IFS=';' read -r id name gender birth phone consultationDay area status nota paid; do
+        if [[ -n "${id// /}" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Gênero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pagamento: $paid"
+            echo "Nota: $nota"
+            echo "-------------------"
+            found=true
+        fi
+    done <"$file"
+    echo ""
+    echo -e "1. Voltar"
+    echo ""
+
+    while true; do
+        read -p "Digite 1 para voltar: " caso
+
+        if [ "$caso" == "1" ]; then
+            ./doctor.sh
+            break
+        fi
+    done
+}
+
 
 function subFunctionScheduleExam {
     local name="$1"
@@ -460,15 +597,15 @@ if command -v finger &>/dev/null; then
     echo " "
 else
     echo "Instalando o pacote 'finger'..."
-    sudo apt update &> /dev/null
-    
-    sudo apt install finger -y &> /dev/null
-    
+    sudo apt update &>/dev/null
+
+    sudo apt install finger -y &>/dev/null
+
     if [ $? -eq 0 ]; then
         echo "Finger instalado com sucesso!"
     else
         echo "Houve um problema ao instalar o comando 'finger'."
-        exit 1  
+        exit 1
     fi
 fi
 
@@ -491,7 +628,9 @@ echo "
 4 - Meus exames
 5 - Realizar exames
 6 - Verificar resultados de exames
-7 - Sair
+7 - Marcar mortalidade
+8 - Listar mortalidades
+9 - Sair
 "
 echo ""
 
@@ -506,32 +645,39 @@ echo ""
 case $option in
 
 1)
-	myQueries
-	;;
+    myQueries
+    ;;
 2)
-	carryConsultations
-	;;
-3)	
-	checkQueryResults
-	;;
+    carryConsultations
+    ;;
+3)
+    checkQueryResults
+    ;;
 4)
-	myExams 
-	;;
-5) performExams
-	;;
+    myExams
+    ;;
+5)
+    performExams
+    ;;
 
-6) checkExamResults
-	;;
+6)
+    checkExamResults
+    ;;
 
 7)
-	echo "5."
-	cd ..
-	cd auth
-	chmod +x login.sh
-	./login.sh
-	;;
+    setInvalid
+    ;;
+8)
+    listMortality
+    ;;
+9)
+    cd ..
+    cd auth
+    chmod +x login.sh
+    ./login.sh
+    ;;
 *)
-	echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
-	echo ""
-	;;
+    echo "Opcao nao disponivel, escolha um dos numeros apresentados!"
+    echo ""
+    ;;
 esac
