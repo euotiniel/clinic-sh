@@ -29,6 +29,8 @@ patients_consulta_historic="$database_dir/historic/patients_consulta_historic.tx
 
 patients_exame_historic="$database_dir/historic/patients_exame_historic.txt"
 
+mortality="$database_dir/mortality.txt"
+
 # Doctor
 
 consultations_done="$database_dir/consultations_done.txt"
@@ -594,6 +596,64 @@ function checkExams {
     done
 }
 
+function checkMortality {
+    clear
+    echo ""
+    echo -e "CONSULTAR MARCACOES DE EXAMES"
+    echo ""
+
+    # Verifica se o arquivo existe
+    file="$mortality"
+
+    if [ ! -s "$file" ]; then
+        echo -e "Nenhum paciente morto."
+        echo ""
+
+        while true; do
+            read -p "Digite 1 para voltar: " caso
+
+            if [ "$caso" == "1" ]; then
+                ./patient.sh
+                break
+            fi
+        done
+    fi
+
+    # Exibir as marcações existentes
+    echo -e "PACIENTES MORTPOS:"
+    echo ""
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota death causeofdeath; do
+        if [[ -n "${id// /}" ]]; then
+            echo "Id: $id"
+            echo "Nome: $name"
+            echo "Genero: $gender"
+            echo "Data de Nascimento: $birth"
+            echo "Telefone: $phone"
+            echo "Dia da Consulta: $consultationDay"
+            echo "Area de consulta: $area"
+            echo "Estado do paciente: $status"
+            echo "Pago: $paid"
+            echo "Nota: $nota"
+            echo "Morto: $death"
+            echo "Causa da morte: $causeofdeath"
+            echo "-------------------"
+        fi
+    done <"$file"
+
+    echo ""
+    log_info "O usuário $usuario acessou a lista dos pacientes mortos"
+
+    while true; do
+        read -p "Digite 1 para voltar: " caso
+
+        if [ "$caso" == "1" ]; then
+            ./patient.sh
+            break
+        fi
+    done
+}
+
+
 function noPaymentMarking {
     clear
     echo ""
@@ -888,7 +948,8 @@ echo "
 4 - Consultar exames
 5 - Pagamentos pendentes - Consultas
 6 - Pagamentos pendentes - Exames
-7 - Sair
+7 - Listar pacientes mortos
+8 - Sair
 "
 
 echo "Escolha uma das opcoes: "
@@ -922,6 +983,9 @@ case $option in
     noPaymentExames
     ;;
 7)
+    checkMortality
+    ;;
+8)
     clear
     cd ..
     cd auth
