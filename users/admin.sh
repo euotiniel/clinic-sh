@@ -407,7 +407,8 @@ echo "
 8. Limpeza do Sistema
 9. Logs
 10. Backup
-11. Sair
+11. Mortos
+12. Sair
 "
 
 read option
@@ -449,11 +450,21 @@ case $option in
 9)
     logs
     ;;
+    
 10)
 
     backup
     ;;
+    
 11)
+
+    cd ../create
+    chmod a+x dead.sh
+    ./dead.sh
+    ;;
+  
+
+12)
     cd ..
     cd auth
     chmod +x login.sh
