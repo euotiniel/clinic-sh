@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 1;Francisco;M;7-8-2003;927926288;1-9-2024;Fisioterapia;Não grave;true;Bom
 1;Jose;M;7-8-2002;927926288;1-9-2024;Fisioterapia;Grave;false;gOOD
 2;Francisco;M;7-8-2024;927926288;1-9-2024;Fisioterapia;Não grave;true;teste
+=======
+1;oto;M;11-5-2005;929392384;11-7-2024;Fisioterapia;Não grave;true;xxxx
+>>>>>>> ad5d9002afda5f106a4459a677aed72ef64180b2
