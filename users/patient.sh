@@ -345,12 +345,16 @@ function scheduleExams {
             echo "-------------------"
             found=true
 
-            if [ "$status" == "Grave" ]; then
+            
+            # break
+        fi
+    done <"$file"
+
+    if [ "$status" == "Grave" ]; then
                 paid=false
             else
                 payExams
                 paid=true
-                return
             fi
 
             # break
@@ -364,9 +368,6 @@ function scheduleExams {
                 log_error "Erro ao fazer marcacao de exame, usuario $usuario"
             fi
 
-            # break
-        fi
-    done <"$file"
 
     log_info "O usuário $usuario fez uma marcacao de exame para o paciente $name"
 
@@ -847,7 +848,7 @@ function payMarking {
             echo "Referência: AO06.0040.0000.3301.4458.1018.5"
             echo ""
             echo -e "1. Confirmar recepção do comprovativo"
-            echo ""
+            choiseecho ""
 
             while true; do
                 read confirm
@@ -880,9 +881,9 @@ function payExams {
     "
 
     while true; do
-        read -p "Seleciona uma das opcoes: " option
+        read -p "Seleciona uma das opcoes: " choise
 
-        case $option in
+        case $choise in
         1)
             echo ""
             echo "Pagamento em Dinheiro selecionado."
@@ -899,6 +900,7 @@ function payExams {
                     break
                 fi
             done
+
             break
             ;;
         2)
@@ -924,8 +926,6 @@ function payExams {
         *)
             echo ""
             echo "Opção inválida. Por favor, selecione 1 ou 2. rrrrrrrrrrrrrrrrrrrrrrrrrrrr"
-            return
-            echo ""
             ;;
         esac
 

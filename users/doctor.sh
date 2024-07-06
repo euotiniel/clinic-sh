@@ -46,6 +46,8 @@ function myQueries {
     echo ""
     echo -e "MINHAS CONSULTAS"
     echo ""
+            
+    log_info "O doctor $usuario acessou a lista dos consultas"
 
     file="$database_dir/patients_consulta_marc.txt"
 
@@ -103,6 +105,8 @@ function carryConsultations {
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
+
+    log_info "O doctor $usuario acessou a sessão de realização de consulta"
 
     while true; do
         echo -e "Id da consulta: "
@@ -178,6 +182,9 @@ function carryConsultations {
             clear
         fi
     done
+
+    log_info "O doctor $usuario realizou uma consulta"
+
 }
 
 function checkQueryResults {
@@ -189,6 +196,8 @@ function checkQueryResults {
     echo ""
     echo -e "Id da consulta: "
     read search_id
+
+    log_info "O doctor $usuario acessou a lista dos resultados"
 
     file="$database_dir/consultations_done.txt"
     found=false
@@ -238,6 +247,8 @@ function myExams {
     echo ""
     echo -e "Exames Marcados"
     echo ""
+
+    log_info "O doctor $usuario acessou a lista dos exames marcados"
 
     # Verifica se o arquivo existe
     file="$PROJECT_URL/database/patients_exame_marc.txt"
@@ -298,6 +309,8 @@ function performExams {
     echo ""
     echo -e "Digite os dados do paciente:"
     echo ""
+
+    log_info "O doctor $usuario a sessão de marcação de exame"
 
     while true; do
         echo -e "Id da consulta: "
@@ -370,6 +383,8 @@ function performExams {
             clear
         fi
     done
+
+    log_info "O doctor $usuario realizou um exame"
 }
 
 function checkExamResults {
@@ -378,6 +393,8 @@ function checkExamResults {
     echo ""
     echo -e "RESULTADOS"
     echo ""
+
+    log_info "O doctor $usuario acessou a lista dos exames realizados"
 
     file="$PROJECT_URL/database/exams_done.txt"
 
@@ -437,6 +454,8 @@ function setInvalid {
     echo -e "Digite os dados do paciente:"
     echo ""
 
+    log_info "O doctor $usuario acessou a sessão para marcação de mortos"
+
     while true; do
         echo -e "Id da consulta: "
         read search_id
@@ -465,6 +484,8 @@ function setInvalid {
                     echo "Morto marcado com sucesso."
                 else
                     echo "Erro ao registrar o morto."
+                    log_error "Erro ao registrar morto"
+
                 fi
 
                 # Remover a linha correspondente ao ID da consulta
@@ -508,6 +529,8 @@ function setInvalid {
             clear
         fi
     done
+
+    log_info "O doctor $usuario registrou um paciente como morto"
 }
 
 function listMortality {
@@ -515,6 +538,8 @@ function listMortality {
     echo ""
     echo -e "LISTAR PACIENTES MORTOS"
     echo ""
+
+    log_info "O doctor $usuario acessou a lista dos pacientes mortos"
 
     # Verifica se o arquivo existe
     file="$mortality"
@@ -641,6 +666,8 @@ echo ""
 echo "Escolha uma das opcoes: "
 
 echo ""
+
+log_info "O doctor $usuario acessou o menu do doctor"
 
 read option
 
