@@ -81,6 +81,10 @@ if [ ! -f "$consultations_done" ]; then
     touch "$consultations_done"
 fi
 
+
+if [ ! -f "$mortality" ]; then
+    touch "$mortality"
+fi
 # Functions
 
 function makeMarking {
@@ -292,6 +296,7 @@ function consultMarking {
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo "$nota"
             echo "-------------------"
         fi
     done <"$file"
@@ -335,6 +340,7 @@ function scheduleExams {
             echo "Área de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo "$nota"
             echo ""
             echo "-------------------"
             found=true
@@ -344,6 +350,7 @@ function scheduleExams {
             else
                 payExams
                 paid=true
+                return
             fi
 
             # break
@@ -578,6 +585,7 @@ function checkExams {
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
+            echo "Nota: $nota"
             echo ""
             echo "-------------------"
         fi
@@ -598,9 +606,6 @@ function checkExams {
 
 function checkMortality {
     clear
-    echo ""
-    echo -e "CONSULTAR MARCACOES DE EXAMES"
-    echo ""
 
     # Verifica se o arquivo existe
     file="$mortality"
@@ -622,7 +627,7 @@ function checkMortality {
     # Exibir as marcações existentes
     echo -e "PACIENTES MORTPOS:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota death causeofdeath; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -634,8 +639,6 @@ function checkMortality {
             echo "Estado do paciente: $status"
             echo "Pago: $paid"
             echo "Nota: $nota"
-            echo "Morto: $death"
-            echo "Causa da morte: $causeofdeath"
             echo "-------------------"
         fi
     done <"$file"
@@ -921,6 +924,7 @@ function payExams {
         *)
             echo ""
             echo "Opção inválida. Por favor, selecione 1 ou 2. rrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+            return
             echo ""
             ;;
         esac

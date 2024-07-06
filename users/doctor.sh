@@ -129,7 +129,7 @@ function carryConsultations {
                 echo "-------------------"
                 found=true
 
-                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
+                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
                 if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$consultations_done"; then
                     echo "Consulta realizada e registrada com sucesso."
@@ -137,6 +137,8 @@ function carryConsultations {
                     echo ""
                 fi
 
+                sed -i "${search_id}d" "$database_dir/patients_consulta_marc.txt"
+                sed -i "${search_id}s/.*/ /" "$database_dir/patients_consulta_marc.txt"
                 sed -i "${search_id}d" "$database_dir/patients_consulta_marc.txt"
                 break
             fi
@@ -259,7 +261,7 @@ function myExams {
     # Exibir as marcações existentes
     echo -e "Marcacoes para exames:"
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status nota paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -304,7 +306,7 @@ function performExams {
         file="$database_dir/patients_exame_marc.txt"
         found=false
 
-        while IFS=';' read -r id name gender birth phone consultationDay area status nota paid; do
+        while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
             if [ "$id" == "$search_id" ]; then
                 echo "Id: $id"
                 echo "Nome: $name"
@@ -319,7 +321,7 @@ function performExams {
                 echo "-------------------"
                 found=true
 
-                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$nota"
+                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
                 if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$exams_done"; then
                     echo "Exame realizado e registrado com sucesso."
@@ -328,9 +330,9 @@ function performExams {
                 fi
 
                 # Remover a linha correspondente ao ID da consulta
-                # sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
+                sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
                 sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
-                sed -i "${search_id}d" "$database_dir/patients_exame_marc.txt"
+                sed -i "${search_id}s" "$database_dir/patients_exame_marc.txt"
 
             fi
         done <"$file"
@@ -407,6 +409,7 @@ function checkExamResults {
             echo "Dia da Consulta: $consultationDay"
             echo "Area de consulta: $area"
             echo "Estado do paciente: $status"
+            echo "Pago: $paid"
             echo "Nota: $nota"
             echo "-------------------"
         fi
@@ -456,7 +459,7 @@ function setInvalid {
                 echo "-------------------"
                 found=true
 
-                # subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
+                subFunctionScheduleExam "$name" "$gender" "$birth" "$phone" "$consultationDay" "$area" "$status" "$paid" "$nota"
 
                 if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$mortality"; then
                     echo "Morto marcado com sucesso."
@@ -465,9 +468,9 @@ function setInvalid {
                 fi
 
                 # Remover a linha correspondente ao ID da consulta
-                # sed -i "${search_id}s/.*/ /" "$database_dir/patients_exame_marc.txt"
+                sed -i "${search_id}s/.*/ /" "$exams_done"
                 sed -i "${search_id}d" "$exams_done"
-                sed -i "${search_id}d" "$exams_done"
+                sed -i "${search_id}s" "$exams_done"
 
             fi
         done <"$file"
@@ -534,7 +537,7 @@ function listMortality {
 
     # Exibir as marcações existentes
     echo ""
-    while IFS=';' read -r id name gender birth phone consultationDay area status nota paid; do
+    while IFS=';' read -r id name gender birth phone consultationDay area status paid nota; do
         if [[ -n "${id// /}" ]]; then
             echo "Id: $id"
             echo "Nome: $name"
@@ -573,7 +576,8 @@ function subFunctionScheduleExam {
     local consultationDay="$5"
     local area="$6"
     local status="$7"
-    local nota="$8"
+    local paid="$8"
+    local nota="$9"
 
     # Debug: Verifique se a variável 'nota' está sendo recebida corretamente
     #echo "Nota recebida na subfunção: $nota"
@@ -584,7 +588,7 @@ function subFunctionScheduleExam {
 
     id=$((id + 1))
 
-    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$nota" >>"$file"; then
+    if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
         echo ""
         echo "----------------------------"
     else
