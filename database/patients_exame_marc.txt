@@ -1,4 +1,2 @@
-2;otoniel;M;11-5-2005;929392384;11-7-2024;Fisioterapia;Não grave;true;melhoras
-2;otoniel;M;11-5-2005;929392384;11-7-2024;Dermatologia;Grave;false;melhoras
-3;otoniel;M;11-5-2005;929392384;11-7-2024;Dermatologia;Grave;false;
-4;otoniel;M;11-5-2005;929392384;11-7-2024;Fisioterapia;Não grave;true;melhoras
+1;oto;M;11-5-2005;929392384;11-7-2024;Fisioterapia;Não grave;true;xxxx
+2;;;;;;;;true;

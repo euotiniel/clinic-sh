@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_URL="/home/fabiana/Documents/SO I/clinica-so"
+PROJECT_URL="/home/monarca7/Documents/clinica-so"
 
 IP_NETWORK="10.0.2.0"
 
