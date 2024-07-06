@@ -1,2 +1,6 @@
+<<<<<<< HEAD
+3;Jose;M;7-8-2002;927926288;1-9-2024;Fisioterapia;Grave;gOOD
+=======
 1;oto;M;11-5-2005;929392384;11-7-2024;Fisioterapia;Não grave;true;xxxx
 2;;;;;;;;true;
+>>>>>>> ad5d9002afda5f106a4459a677aed72ef64180b2

@@ -1,6 +1,10 @@
 #!/bin/bash
 
+<<<<<<< HEAD
+PROJECT_URL="/home/francisco/Documentos/clinica-so"
+=======
 PROJECT_URL="/home/monarca7/Documents/clinica-so"
+>>>>>>> ad5d9002afda5f106a4459a677aed72ef64180b2
 
 IP_NETWORK="10.0.2.0"
 

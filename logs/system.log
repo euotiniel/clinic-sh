@@ -5,6 +5,55 @@
 =======
 [2024-07-05 18:38:36] [INFO] O usuário abelfelix iniciou sessão como administrador
 >>>>>>> db81d9a20b96329950b6d1c247bdd9071ae7586c
+<<<<<<< HEAD
+[2024-07-05 19:51:38] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:51:45] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:51:51] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:52:37] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:56:54] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-05 19:57:49] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:58:29] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:59:11] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 19:59:14] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:00:52] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:01:16] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente otoniel
+[2024-07-05 20:01:17] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:01:19] [INFO] O usuário francisco acessou a lista de marcacoes para consultas
+[2024-07-05 20:01:20] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:01:45] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:02:07] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:02:21] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:02:42] [INFO] O usuário francisco acessou a lista de marcacoes
+[2024-07-05 20:02:46] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-05 20:05:40] [INFO] O usuário guest iniciou sessão como convidado
+[2024-07-06 10:37:31] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 10:39:03] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Francisco
+[2024-07-06 10:39:10] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 10:39:21] [INFO] O usuário francisco acessou a lista de marcacoes para consultas
+[2024-07-06 10:39:22] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 10:39:30] [INFO] O usuário francisco acessou a lista dos pacientes mortos
+[2024-07-06 10:39:33] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 10:39:41] [INFO] O usuário abel iniciou sessão como paciente
+[2024-07-06 10:39:46] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 11:40:42] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 11:41:19] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Francisco
+[2024-07-06 11:41:40] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 11:41:48] [INFO] O usuário francisco fez uma marcacao de exame para o paciente 
+[2024-07-06 11:41:58] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 11:42:32] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 11:43:57] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 11:44:41] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Jose
+[2024-07-06 11:45:18] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 13:27:41] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 13:28:30] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Francisco
+[2024-07-06 13:28:34] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 13:28:59] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 13:33:08] [INFO] O usuário guest iniciou sessão como convidado
+[2024-07-06 13:49:25] [INFO] O usuário guest iniciou sessão como convidado
+[2024-07-06 13:49:47] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-06 13:50:10] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-06 13:50:41] [INFO] O usuário francisco iniciou sessão como administrador
+=======
 [2024-07-06 13:02:05] [INFO] O usuário fabiana acessou o menu do paciente
 [2024-07-06 13:03:13] [INFO] O usuário fabiana acessou o menu do paciente
 [2024-07-06 13:03:56] [INFO] O usuário fabiana acessou o menu do paciente
@@ -146,3 +195,4 @@
 [2024-07-06 16:38:45] [INFO] O usuário monarca7 fez uma marcacao de exame para o paciente 
 [2024-07-06 16:38:46] [INFO] O usuário monarca7 acessou o menu do paciente
 [2024-07-06 16:38:51] [INFO] O usuário monarca7 acessou a lista de marcacoes
+>>>>>>> ad5d9002afda5f106a4459a677aed72ef64180b2
