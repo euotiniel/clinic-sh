@@ -196,3 +196,50 @@
 [2024-07-06 16:38:46] [INFO] O usuário monarca7 acessou o menu do paciente
 [2024-07-06 16:38:51] [INFO] O usuário monarca7 acessou a lista de marcacoes
 >>>>>>> ad5d9002afda5f106a4459a677aed72ef64180b2
+[2024-07-06 17:21:01] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 17:26:21] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 17:27:09] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 17:27:22] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 17:28:24] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Francisco
+[2024-07-06 17:28:29] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 17:28:35] [INFO] O doctor francisco acessou a sessão de realização de consulta
+[2024-07-06 17:28:44] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 17:29:06] [INFO] O usuário francisco salvou a marcacao de exame do paciente 
+[2024-07-06 17:29:06] [INFO] O usuário francisco fez uma marcacao de exame para o paciente 
+[2024-07-06 17:29:20] [INFO] O doctor francisco acessou a lista dos exames marcados
+[2024-07-06 17:29:23] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 17:31:15] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 17:31:23] [INFO] O doctor francisco a sessão de marcação de exame
+[2024-07-06 17:31:31] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 17:32:30] [INFO] O doctor francisco acessou a lista dos exames realizados
+[2024-07-06 17:33:51] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 17:33:54] [INFO] O doctor francisco acessou a sessão para marcação de mortos
+[2024-07-06 18:02:43] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 18:03:06] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente otoniel
+[2024-07-06 18:03:07] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 18:03:13] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:03:14] [INFO] O doctor francisco acessou a lista dos consultas
+[2024-07-06 18:03:15] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:03:16] [INFO] O doctor francisco acessou a sessão de realização de consulta
+[2024-07-06 18:03:22] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:03:40] [INFO] O usuário francisco fez uma marcacao de exame para o paciente 
+[2024-07-06 18:05:25] [INFO] O doctor francisco acessou a lista dos exames marcados
+[2024-07-06 18:05:36] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:05:38] [INFO] O doctor francisco acessou a sessão de realização de consulta
+[2024-07-06 18:07:09] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 18:07:26] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 18:07:53] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente otoniel
+[2024-07-06 18:07:56] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 18:08:03] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:08:05] [INFO] O doctor francisco acessou a lista dos consultas
+[2024-07-06 18:08:06] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:08:06] [INFO] O doctor francisco acessou a sessão de realização de consulta
+[2024-07-06 18:08:11] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:08:15] [INFO] O doctor francisco acessou a lista dos resultados
+[2024-07-06 18:08:16] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:08:30] [INFO] O usuário francisco salvou a marcacao de exame do paciente 
+[2024-07-06 18:08:30] [INFO] O usuário francisco fez uma marcacao de exame para o paciente 
+[2024-07-06 18:08:31] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-06 18:08:36] [INFO] O doctor francisco acessou a lista dos exames marcados
+[2024-07-06 18:08:38] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-06 18:08:41] [INFO] O doctor francisco a sessão de marcação de exame

@@ -31,3 +31,22 @@ mv "$tempfile" "$arquivo"
 
 echo "Processamento concluído."
 
+    echo "1. Voltar"
+    
+    read -p "Escolha uma opção: " opcao
+
+    case $opcao in
+    
+    1)
+        clear
+        cd ../users
+        ./admin.sh
+        ;;
+    *)
+        echo "Opção inválida. Por favor, escolha novamente."
+        ;;
+    esac
+
+
+
+
