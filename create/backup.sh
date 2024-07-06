@@ -5,7 +5,6 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-
 DISPOSITIVO="/dev/sda"
 TAMANHO_PARTICAO="100M"
 PONTO_DE_MONTAGEM="/mnt/backup"
