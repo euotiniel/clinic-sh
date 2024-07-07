@@ -14,7 +14,7 @@ log_error(){
 }
 
 clear
-echo "Clínica Kipipa"
+echo "Clínica Santa Muxima"
 echo ""
 
 # Solicitação do nome do usuário
