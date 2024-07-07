@@ -243,3 +243,52 @@
 [2024-07-06 18:08:36] [INFO] O doctor francisco acessou a lista dos exames marcados
 [2024-07-06 18:08:38] [INFO] O doctor francisco acessou o menu do doctor
 [2024-07-06 18:08:41] [INFO] O doctor francisco a sessão de marcação de exame
+[2024-07-07 16:31:24] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:32:19] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:33:26] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:33:50] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:37:34] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:37:52] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:39:03] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:39:29] [INFO] O usuário euotinielpc fez uma marcacao de consulta para o paciente otoniel
+[2024-07-07 16:39:31] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:39:40] [INFO] O doctor euotinielpc acessou a lista dos consultas
+[2024-07-07 16:39:51] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:39:55] [INFO] O doctor euotinielpc acessou a sessão de realização de consulta
+[2024-07-07 16:40:07] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:40:17] [INFO] O doctor euotinielpc acessou a lista dos resultados
+[2024-07-07 16:40:20] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:40:23] [INFO] O doctor euotinielpc acessou a lista dos exames realizados
+[2024-07-07 16:41:39] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:42:07] [INFO] O usuário euotinielpc salvou a marcacao de exame do paciente 
+[2024-07-07 16:42:07] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente 
+[2024-07-07 16:42:10] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:42:17] [INFO] O usuário euotinielpc acessou a lista de marcacoes
+[2024-07-07 16:44:14] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:44:27] [INFO] O usuário euotinielpc salvou a marcacao de exame do paciente 
+[2024-07-07 16:44:27] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente 
+[2024-07-07 16:45:04] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente otoniel
+[2024-07-07 16:45:08] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:45:11] [INFO] O usuário euotinielpc acessou a lista de marcacoes
+[2024-07-07 16:51:35] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:51:40] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:54:34] [INFO] O usuário euotinielpc acessou a lista de marcacoes
+[2024-07-07 16:57:00] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 16:57:12] [INFO] O doctor euotinielpc acessou o menu do doctor
+[2024-07-07 16:57:16] [INFO] O doctor euotinielpc acessou a lista dos exames marcados
+[2024-07-07 16:57:24] [INFO] O usuário euotinielpc acessou a lista de consultas nao pagas
+[2024-07-07 16:57:36] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 17:09:01] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 17:09:15] [INFO] O usuário euotinielpc salvou a marcacao de exame do paciente 
+[2024-07-07 17:09:15] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente 
+[2024-07-07 17:11:32] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 17:11:37] [INFO] O usuário euotinielpc salvou a marcacao de exame do paciente 
+[2024-07-07 17:11:37] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente 
+[2024-07-07 17:12:20] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente fabiana
+[2024-07-07 17:12:23] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 17:12:27] [INFO] O usuário euotinielpc acessou a lista de marcacoes
+[2024-07-07 17:13:11] [INFO] O usuário euotinielpc acessou o menu do paciente
+[2024-07-07 17:13:17] [INFO] O usuário euotinielpc salvou a marcacao de exame do paciente 
+[2024-07-07 17:13:17] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente 
+[2024-07-07 17:13:58] [INFO] O usuário euotinielpc fez uma marcacao de exame para o paciente andre
+[2024-07-07 17:14:02] [INFO] O usuário euotinielpc acessou o menu do paciente

@@ -351,11 +351,13 @@ function scheduleExams {
     done <"$file"
 
     if [ "$status" == "Grave" ]; then
-                paid=false
-            else
-                payExams
-                paid=true
-            fi
+               paid=false
+    elif [ "$status" == "Não grave" ]; then
+               payExams
+               paid=true 
+    else
+                echo ""
+    fi
 
             # break
 
@@ -536,6 +538,8 @@ function scheduleExams {
             log_error "Erro ao fazer marcacao de exame, usuario $usuario"
         fi
     fi
+    
+    echo "Exame marcado com sucesso!"
 
     echo ""
 
@@ -799,7 +803,6 @@ function subFunctionScheduleExam {
 
     if echo "$id;$name;$gender;$birth;$phone;$consultationDay;$area;$status;$paid;$nota" >>"$file"; then
         echo ""
-        echo "Exame marcado com sucesso!"
     else
         echo ""
         echo "Ups! Erro ao salvar. Verifique as permissões ou tente novamente."
@@ -848,7 +851,7 @@ function payMarking {
             echo "Referência: AO06.0040.0000.3301.4458.1018.5"
             echo ""
             echo -e "1. Confirmar recepção do comprovativo"
-            choiseecho ""
+            echo ""
 
             while true; do
                 read confirm
