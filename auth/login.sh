@@ -14,13 +14,11 @@ log_error(){
 }
 
 clear
-echo "Clínica Kipipa"
+figlet "Clinica Santa Muxima"
 echo ""
-
-# Solicitação do nome do usuário
+echo "LOGIN"
 read -p "Insira o nome do usuário: " opcao
 
-# read -s -p "Insira a palavra-passe: " senha
 
 echo ""
 
@@ -32,32 +30,32 @@ if [ -n "$opcao" ]; then
         cd ../auth
         ./guest.sh
     elif id -u "$opcao" >/dev/null 2>&1; then
-        uid=$(id -u "$opcao")
-        if [ "$uid" -eq 1000 ]; then
-            log_info "O usuário $opcao iniciou sessão como administrador"
-            su "$opcao"
-            cd ../users
-            chmod +x login.sh
-            ./login.sh
-            ./admin.sh
-        elif [ "$uid" -ge 1100 ] && [ "$uid" -le 1199 ]; then
-            log_info "O usuário $opcao iniciou sessão como paciente"
-            su "$opcao"
-            cd ../users
-            chmod +x login.sh
-            ./login.sh
-            ./patient.sh
-        elif [ "$uid" -ge 1001 ] && [ "$uid" -le 1099 ]; then
-            log_info "O usuário $opcao iniciou sessão como médico"
-            su "$opcao"
-            cd ../users
-            chmod +x login.sh
-            ./login.sh
-            ./doctor.sh
-        else
-            echo "Usuário $opcao não possui perfil adequado."
-            log_error "O usuário $opcao não possui perfil adequado"
-        fi
+            if [ "$uid" -eq 1000 ]; then
+                log_info "O usuário $opcao iniciou sessão como administrador"
+                su "$opcao"
+                cd ../users
+                chmod +x login.sh
+                ./login.sh
+                ./admin.sh
+            elif [ "$uid" -ge 1100 ] && [ "$uid" -le 1199 ]; then
+                log_info "O usuário $opcao iniciou sessão como paciente"
+                su "$opcao"
+                cd ../users
+                chmod +x login.sh
+                ./login.sh
+                ./patient.sh
+            elif [ "$uid" -ge 1001 ] && [ "$uid" -le 1099 ]; then
+                log_info "O usuário $opcao iniciou sessão como médico"
+                su "$opcao"
+                cd ../users
+                chmod +x login.sh
+                ./login.sh
+                ./doctor.sh
+            else
+                echo "Usuário $opcao não possui perfil adequado."
+                log_error "O usuário $opcao não possui perfil adequado"
+            fi
+      
     else
         echo "Usuário $opcao não existe!"
         log_error "O usuário $opcao não existe"

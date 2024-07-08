@@ -243,3 +243,138 @@
 [2024-07-06 18:08:36] [INFO] O doctor francisco acessou a lista dos exames marcados
 [2024-07-06 18:08:38] [INFO] O doctor francisco acessou o menu do doctor
 [2024-07-06 18:08:41] [INFO] O doctor francisco a sessão de marcação de exame
+[2024-07-07 10:38:05] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 10:41:12] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 10:47:01] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 10:47:10] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 10:53:25] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 10:53:38] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 10:58:17] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 10:58:21] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:02:28] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 11:02:35] [INFO] O usuário francisco apagou o Medico teste
+[2024-07-07 11:02:40] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:03:53] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:04:23] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 11:04:49] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:04:58] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:05:11] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 11:09:56] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 11:09:58] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 11:10:03] [INFO] O usuário francisco apagou o Medico teste
+[2024-07-07 11:10:07] [INFO] O usuário francisco apagou o Medico teste2
+[2024-07-07 11:10:17] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:12:39] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 11:12:45] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 11:13:39] [INFO] O usuário francisco acessou a lista de Funcionarios
+[2024-07-07 11:13:48] [INFO] O usuário francisco apagou o Funcionario 
+[2024-07-07 11:14:17] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 11:15:13] [INFO] O usuário francisco apagou o Funcionario 
+[2024-07-07 11:17:45] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:18:08] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 11:43:04] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 11:43:26] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 18:41:11] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:42:00] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 18:42:06] [INFO] O usuário francisco apagou o Medico teste
+[2024-07-07 18:42:12] [INFO] O usuário francisco apagou o Medico teste1
+[2024-07-07 18:42:18] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 18:42:33] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:46:06] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:46:16] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 18:46:20] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:47:23] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 18:47:31] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:47:52] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:48:46] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 18:54:42] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:55:35] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 18:55:39] [INFO] O usuário francisco apagou o Medico kk
+[2024-07-07 18:56:36] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 18:57:33] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 19:17:18] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 19:17:34] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 19:17:43] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 19:18:31] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 19:18:34] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 19:18:42] [INFO] O usuário francisco apagou o Medico 
+[2024-07-07 19:24:36] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 19:25:03] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 19:26:03] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 19:32:29] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 19:34:35] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 19:35:25] [INFO] O usuário francisco acessou a lista de Funcionarios
+[2024-07-07 19:37:38] [INFO] O usuário francisco apagou o Funcionario 
+[2024-07-07 19:37:51] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 19:38:40] [INFO] O usuário francisco adicionou o Funcionario 
+[2024-07-07 21:31:38] [INFO] O usuário guest iniciou sessão como convidado
+[2024-07-07 21:32:44] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 21:32:57] [INFO] O usuário abel iniciou sessão como paciente
+[2024-07-07 21:33:02] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 21:34:00] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 21:34:12] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 21:35:42] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 21:35:49] [INFO] O usuário francisco adicionou o Medico 
+[2024-07-07 21:36:41] [INFO] O usuário francisco acessou a lista dos Medicos
+[2024-07-07 21:37:34] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 21:42:10] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 21:58:08] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 21:59:40] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 22:00:25] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 22:01:45] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 22:02:40] [INFO] O usuário abel iniciou sessão como paciente
+[2024-07-07 22:02:44] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:03:19] [INFO] O usuário medico iniciou sessão como médico
+[2024-07-07 22:03:24] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:04:16] [INFO] O doctor francisco acessou a sessão para marcação de mortos
+[2024-07-07 22:04:47] [INFO] O usuário abel iniciou sessão como paciente
+[2024-07-07 22:04:51] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:05:41] [INFO] O usuário medico iniciou sessão como médico
+[2024-07-07 22:05:45] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:06:50] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Fabiana
+[2024-07-07 22:06:53] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:06:59] [INFO] O doctor francisco acessou a sessão de realização de consulta
+[2024-07-07 22:07:13] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:07:27] [INFO] O usuário francisco salvou a marcacao de exame do paciente 
+[2024-07-07 22:07:27] [INFO] O usuário francisco fez uma marcacao de exame para o paciente 
+[2024-07-07 22:07:29] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:07:36] [INFO] O doctor francisco a sessão de marcação de exame
+[2024-07-07 22:07:42] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:08:03] [INFO] O doctor francisco acessou a sessão para marcação de mortos
+[2024-07-07 22:08:13] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:08:31] [INFO] O doctor francisco a sessão de marcação de exame
+[2024-07-07 22:08:39] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:08:44] [INFO] O doctor francisco acessou a lista dos exames realizados
+[2024-07-07 22:09:37] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:09:40] [INFO] O doctor francisco acessou a sessão para marcação de mortos
+[2024-07-07 22:09:54] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:09:59] [INFO] O doctor francisco acessou a lista dos exames realizados
+[2024-07-07 22:10:03] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:10:25] [INFO] O doctor francisco acessou a lista dos pacientes mortos
+[2024-07-07 22:11:34] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 22:12:09] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:12:12] [INFO] O doctor francisco acessou a lista dos pacientes mortos
+[2024-07-07 22:12:49] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:15:04] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Fabiana
+[2024-07-07 22:15:15] [INFO] O usuário abel iniciou sessão como paciente
+[2024-07-07 22:15:21] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:16:12] [INFO] O usuário francisco fez uma marcacao de consulta para o paciente Fabiana
+[2024-07-07 22:16:16] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:16:26] [INFO] O usuário medico iniciou sessão como médico
+[2024-07-07 22:16:31] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:16:37] [INFO] O usuário francisco iniciou sessão como administrador
+[2024-07-07 22:16:46] [INFO] O doctor francisco acessou a sessão de realização de consulta
+[2024-07-07 22:17:03] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:17:11] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:17:23] [INFO] O usuário francisco salvou a marcacao de exame do paciente 
+[2024-07-07 22:17:23] [INFO] O usuário francisco fez uma marcacao de exame para o paciente 
+[2024-07-07 22:17:26] [INFO] O usuário francisco acessou o menu do paciente
+[2024-07-07 22:17:36] [INFO] O doctor francisco a sessão de marcação de exame
+[2024-07-07 22:17:40] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:17:49] [INFO] O doctor francisco acessou a lista dos exames realizados
+[2024-07-07 22:18:03] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:18:07] [INFO] O doctor francisco acessou a sessão para marcação de mortos
+[2024-07-07 22:18:19] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:18:38] [INFO] O doctor francisco acessou a lista dos pacientes mortos
+[2024-07-07 22:19:16] [INFO] O doctor francisco acessou o menu do doctor
+[2024-07-07 22:19:25] [INFO] O doctor francisco acessou a lista dos pacientes mortos
