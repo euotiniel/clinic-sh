@@ -13,17 +13,50 @@ log_error() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] [ERROR] $1" >>"$logs/error.log"
 }
 
-# Funcoes
 
 function addDoctor {
     clear
     log_info "O usuário $usuario adicionou o Medico $opcao"
 
-    echo "Insira o nome de usuario do Medico"
-    read user
 
+echo "Escolha a qual Clinica deseja adicionar o Médico:"
+echo "1. Clinica Santa Muxima - Talatona"
+echo "2. Clinica Santa Muxima - Cazenga"
+read -p "Escolha uma opção (1-2): " opcao
+
+
+case $opcao in
+    1)
+        grupo="talatona"
+        ;;
+    2)
+        grupo="cazenga"
+        ;;
+    *)
+        echo "Opção inválida, Tente novamente"
+        exit 1
+        ;;
+esac
+
+echo "Insira o nome de usuário do Médico:"
+read user
+
+if id "$user" &>/dev/null; then
+    echo "Usuário $user já existe."
+else
     sudo adduser $user
-    echo "Medico adicionado com Sucesso!"
+    sudo usermod -aG $grupo $user
+
+
+    if [ $? -eq 0 ]; then
+        echo "Usuário $user foi adicionado com sucesso a Clinica Santa Muxima $grupo."
+    else
+        echo "Falha ao adicionar o usuário $user na Clinica Santa Muxima $grupo."
+        exit 1
+    fi
+fi
+
+
 
     read caso
     echo "1. Voltar"
@@ -123,21 +156,54 @@ function cleanSystem {
 function addEmployee {
     clear
     log_info "O usuário $usuario adicionou o Funcionario $user"
-    next_uid=1100
 
-    while true; do
-        echo "Insira o nome de usuário do Funcionário (ou 'q' para sair):"
-        read user
+echo "Escolha a qual Clínica deseja adicionar o Funcionário:"
+echo "1. Clínica Santa Muxima - Talatona"
+echo "2. Clínica Santa Muxima - Cazenga"
+read -p "Escolha uma opção (1-2): " opcao
 
-        if [[ "$user" == "q" ]]; then
-            break
-        fi
+case $opcao in
+    1)
+        grupo="talatona"
+        ;;
+    2)
+        grupo="cazenga"
+        ;;
+    *)
+        echo "Opção inválida, Tente novamente"
+        exit 1
+        ;;
+esac
 
+next_uid=1100
+
+while id "$next_uid" &>/dev/null; do
+    ((next_uid++))
+done
+
+while true; do
+    echo "Insira o nome de usuário do Funcionário (ou 'q' para sair):"
+    read user
+
+    if [[ "$user" == "q" ]]; then
+        break
+    fi
+
+    if id "$user" &>/dev/null; then
+        echo "Usuário $user já existe."
+    else
         sudo adduser --uid $next_uid "$user"
-        ((next_uid++))
+        sudo usermod -aG $grupo $user
 
-        echo "Usuário '$user' adicionado com UID $next_uid."
-    done
+        if [ $? -eq 0 ]; then
+            echo "Usuário $user foi adicionado com sucesso à Clínica Santa Muxima $grupo com UID $next_uid."
+            ((next_uid++))
+        else
+            echo "Falha ao adicionar o usuário $user à Clínica Santa Muxima $grupo."
+            exit 1
+        fi
+    fi
+done
 
     read caso
     echo "1. Voltar"
@@ -373,6 +439,7 @@ function reload {
     
     1)
         clear
+        cd ../users
         ./admin.sh
         ;;
     2)
@@ -457,7 +524,7 @@ case $option in
     ;;
     
 11)
-
+    clear
     cd ../create
     chmod a+x dead.sh
     ./dead.sh

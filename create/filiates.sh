@@ -1,16 +1,12 @@
 #!/bin/bash
 
-# LOGS
 
-# Definindo o diretório de logs
 logs="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/logs"
 
-# Função para registrar informações no log
 log_info() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] [INFO] $1" >>"$logs/system.log"
 }
 
-# Função para registrar erros no log
 log_error() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] [ERROR] $1" >>"$logs/error.log"
 }
@@ -132,7 +128,7 @@ clear
 
 
 clear
-echo "Filiais Kipipa"
+echo "Filiais Santa Muxima"
 echo "------------------"
 usuario=$(whoami)
 nome=$(finger $usuario | awk -F: '/Name/ {print $3}' | tr -d ' ')
@@ -141,9 +137,7 @@ echo "Bem vindo/a $nome"
 echo ""
 echo "1. Ver Filiais"
 echo "2. Criar Filiais"
-echo "3. Eliminar Filiais"
-echo "3. Entrar Filiais"
-echo "4. Sair"
+echo "3. Sair"
 	
 echo "Escolha uma das opcoes: "
 
@@ -162,11 +156,8 @@ case $option in
 		createFiliates
 		
 		;;
+
 	3) 
-		delFiliates
-		
-		;;
-	4) 
 		cd ..
 		cd users
 		chmod a+x ./admin.sh

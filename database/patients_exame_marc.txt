@@ -1,5 +1,1 @@
-1;otoniel;M;11-5-2005;929392384;11-7-2024;Dermatologia;Não grave;true;xxxxxxxxxx
-2;abel;M;22-5-2000;987675543;9-9-2024;Dermatologia;Não grave;true;
-3;fabiana;F;14-5-2005;928098760;15-7-2024;Ginecologia;Não grave;true;
-4;andre;M;30-9-2006;9293923888;30-7-2024;Dermatologia;Grave;false;
 

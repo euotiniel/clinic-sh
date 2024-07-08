@@ -19,3 +19,6 @@
 [2024-07-06 13:50:28] [info] Iniciando cópia de /home/francisco/Documentos/clinica-so/database para /mnt/Backup
 [2024-07-06 13:50:31] [info] Backup Efetuado com Sucesso.
 [2024-07-06 13:50:31] [info] Fim do processo de cópia.
+[2024-07-07 22:00:01] [info] Iniciando cópia de /home/francisco/Documentos/clinica-so/database para /mnt/Backup
+[2024-07-07 22:00:17] [error] Erro ao copiar os arquivos.
+[2024-07-07 22:00:17] [info] Fim do processo de cópia.
