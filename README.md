@@ -1,3 +1,3 @@
-### Clinica Kipipa
+### Santa Muxima Clinic
 
-Our final project of the discipline of Operating Systems I - Management of a clinic 
+Our final project of the discipline of Operating Systems I - Management of a clinic, lol
