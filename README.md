@@ -20,7 +20,8 @@ To install and configure the project locally, follow the steps below:
 1. Leave a ⭐ on the repository.
 2. Fork the project.
 3. Clone the repository.
-4. Run `./main.sh`
+4. Change the project path in `config.sh` on the variable `PROJECT_URL`. Type a pwd in the main directory and replace the path.
+5. Run `./main.sh`
 
 > All necessary dependencies will be automatically installed.
 
