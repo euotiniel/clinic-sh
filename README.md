@@ -114,7 +114,7 @@ The project was developed by:
 - Abel Rosinho
 - Fabiana Giliane
 
-Special thanks to Professor Djamila Quipipa of Operating Systems I.
+Special thanks to Professor of Operating Systems I.
 
 ### Contribution
 
@@ -133,6 +133,6 @@ This project is student work and does not have a specific license. Feel free to 
 
 ---
 
-We hope this project is useful for learning and developing skills in Shell Script and operating system administration.
+🏎💨 We hope this project is useful for learning and developing skills in Shell Script and operating system administration.
 
 
